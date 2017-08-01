@@ -145,6 +145,18 @@
 			console.log('error logout: ', error);
 		});
 	}
+	
+	function onSignInSubmit() {
+		console.log('here');
+	}
+	
+	window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+	  'size': 'invisible',
+	  'callback': function(response) {
+		// reCAPTCHA solved, allow signInWithPhoneNumber.
+		onSignInSubmit();
+	  }
+	});
 </script>
 
 </head>
@@ -156,5 +168,17 @@
 <p><a href="" onClick="twitterLogin(); return false;">Twitter</a></p>
 <p><a href="" onClick="gitHubLogin(); return false;">Github</a></p>
 <p><a href="" onClick="signOut(); return false;">Signout</a></p>
+
+  Phone Number: 
+  <label>
+  <input type="text" name="textfield">
+  </label>
+  <p>
+    <label>
+    <input type="button" id="sign-in-button" name="Submit" value="Login">
+    </label>
+  </p>
+
+<p>&nbsp;</p>
 </body>
 </html>

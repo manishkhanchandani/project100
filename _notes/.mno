@@ -10,4 +10,6 @@
 	<infoitem key="MM_Session6" value="MM_UID" />
 	<infoitem key="MM_Session7" value="MM_LoggedInTime" />
 	<infoitem key="MM_Session8" value="MM_ProfileUID" />
+	<infoitem key="MM_URL1" value="religion_id" />
+	<infoitem key="MM_URL_Count" value="1" />
 </info>
