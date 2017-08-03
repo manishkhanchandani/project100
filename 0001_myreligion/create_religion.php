@@ -76,10 +76,11 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO religions (user_id, religion_name, religion_description) VALUES (%s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO religions (user_id, religion_name, religion_description, religion_type) VALUES (%s, %s, %s, %s)",
                        GetSQLValueString($_POST['user_id'], "int"),
                        GetSQLValueString($_POST['religion_name'], "text"),
-                       GetSQLValueString($_POST['religion_description'], "text"));
+                       GetSQLValueString($_POST['religion_description'], "text"),
+                       GetSQLValueString($_POST['religion_type'], "text"));
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
@@ -96,21 +97,27 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <head>
 <meta charset="utf-8">
 <title>Create New Religion</title>
-
 </head>
 
 <body>
-<p>Create New Religion</p>
+<h1>Create New Religion</h1>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table>
     <tr valign="baseline">
-      <td nowrap align="right">Religion Name:</td>
+      <td nowrap align="right"><strong>Religion Name:</strong></td>
       <td><input type="text" name="religion_name" value="" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Religion Description:</td>
-      <td><textarea name="religion_description" cols="50" rows="5"></textarea>
-      </td>
+      <td nowrap align="right" valign="top"><strong>Religion Description:</strong></td>
+      <td><textarea name="religion_description" cols="50" rows="5"></textarea>      </td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right"><strong>Religion Type </strong></td>
+      <td><label>
+        <input name="religion_type" type="radio" value="public">
+      Public (Anyone in world can add views)
+      <input name="religion_type" type="radio" value="closed" checked>
+      Closed (Only User can add views) </label></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>

@@ -1,0 +1,16 @@
+{
+	"key": "value",
+	"name": "manny",
+	"age": 43,
+	"hobbies": [
+		"movies",
+		"dining out",
+		"chess",
+		"Table Tennis"
+	],
+	"address": {
+		"city": "San Francisco",
+		"state": "CA",
+		"coutnry": "USA"
+	}
+}

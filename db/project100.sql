@@ -382,12 +382,13 @@ CREATE TABLE `religions` (
   `religion_description` text,
   `religion_creation_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `religion_status` int(1) NOT NULL DEFAULT '0',
+  `religion_type` enum('public','closed') NOT NULL DEFAULT 'closed',
   PRIMARY KEY (`religion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions` */
 
-insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`) values (1,1,'Manny\'s Religion','This is my personal religion','2017-07-31 22:04:49',1),(2,1,'Kate\'s Religion','This is my personal religion 2','2017-07-31 22:11:05',1),(3,1,'Carrie\'s Religion','This is my personal religion 2','2017-07-31 22:04:50',1),(4,3,'dfdfd','dfdf','2017-07-31 22:04:52',1);
+insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`,`religion_type`) values (5,1,'Hindu Religion','my religion','2017-08-02 22:23:54',1,'closed'),(6,1,'Christian Religion','ddd','2017-08-02 22:23:57',1,'closed'),(7,1,'Buddhist Religion','dfdkfdkfjdf','2017-08-02 22:24:17',1,'public');
 
 /*Table structure for table `religions_follower` */
 
@@ -507,7 +508,7 @@ CREATE TABLE `users_auth` (
 
 /*Data for the table `users_auth` */
 
-insert  into `users_auth`(`user_id`,`display_name`,`profile_img`,`email`,`provider_id`,`password`,`access_level`,`user_created_dt`,`uid`,`logged_in_time`,`profile_uid`) values (1,'Mango Here','https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/20229418_10155362155310977_5074678007866764600_n.jpg?oh=fde03124293477a1932df553d1384408&oe=5A08A081','manishkk74@gmail.com','email2','password','member','2017-07-25 21:56:28',NULL,NULL,NULL),(3,'mango','http://google.com','abc1@mkgalaxy.com','email2','password','member','2017-07-25 21:59:27',NULL,NULL,NULL);
+insert  into `users_auth`(`user_id`,`display_name`,`profile_img`,`email`,`provider_id`,`password`,`access_level`,`user_created_dt`,`uid`,`logged_in_time`,`profile_uid`) values (1,'Mango Here','https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/20229418_10155362155310977_5074678007866764600_n.jpg?oh=fde03124293477a1932df553d1384408&oe=5A08A081','manishkk74@gmail.com','email2','password','admin','2017-08-01 21:52:12',NULL,NULL,NULL),(3,'mango','http://google.com','abc1@mkgalaxy.com','email2','password','member','2017-07-25 21:59:27',NULL,NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -12,4 +12,5 @@
 	<infoitem key="MM_Session8" value="MM_ProfileUID" />
 	<infoitem key="MM_URL1" value="religion_id" />
 	<infoitem key="MM_URL_Count" value="1" />
+	<infoitem key="PageAccessControl" value="admin,member" />
 </info>
