@@ -384,11 +384,11 @@ CREATE TABLE `religions` (
   `religion_status` int(1) NOT NULL DEFAULT '0',
   `religion_type` enum('public','closed') NOT NULL DEFAULT 'closed',
   PRIMARY KEY (`religion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions` */
 
-insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`,`religion_type`) values (5,1,'Hindu Religion','my religion','2017-08-02 22:23:54',1,'closed'),(6,1,'Christian Religion','ddd','2017-08-02 22:23:57',1,'closed'),(7,1,'Buddhist Religion','dfdkfdkfjdf','2017-08-02 22:24:17',1,'public');
+insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`,`religion_type`) values (1,1,'Manny\'s Religion','All about my views','2017-08-03 21:41:46',1,'closed'),(2,1,'Hindu Religion','All about hindu religion','2017-08-03 21:41:48',1,'public');
 
 /*Table structure for table `religions_follower` */
 
@@ -424,15 +424,17 @@ DROP TABLE IF EXISTS `religions_view`;
 
 CREATE TABLE `religions_view` (
   `view_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `view_user_id` int(11) DEFAULT NULL,
   `religion_id` int(11) DEFAULT NULL,
   `view_description` text,
   `category_id` int(2) DEFAULT NULL,
-  `view_created_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `view_created_dt` datetime DEFAULT NULL,
   PRIMARY KEY (`view_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions_view` */
+
+insert  into `religions_view`(`view_id`,`view_user_id`,`religion_id`,`view_description`,`category_id`,`view_created_dt`) values (1,1,1,'There is only one GOD and it controls all world.',9,'2017-08-03 22:10:46'),(2,1,1,'Every one should eat natural foods',6,'2017-08-03 22:12:55');
 
 /*Table structure for table `rf_comments` */
 

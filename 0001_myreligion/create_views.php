@@ -107,16 +107,16 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr valign="baseline">
       <td nowrap align="right">Category ID:</td>
       <td><select name="category_id">
-        <option value="1" <?php if (!(strcmp(1, ""))) {echo "SELECTED";} ?>>General</option>
-        <option value="2" <?php if (!(strcmp(2, ""))) {echo "SELECTED";} ?>>Economy</option>
-        <option value="3" <?php if (!(strcmp(3, ""))) {echo "SELECTED";} ?>>Jobs</option>
-        <option value="4" <?php if (!(strcmp(4, ""))) {echo "SELECTED";} ?>>Education</option>
-        <option value="5" <?php if (!(strcmp(5, ""))) {echo "SELECTED";} ?>>Environment</option>
-        <option value="6" <?php if (!(strcmp(6, ""))) {echo "SELECTED";} ?>>Health</option>
-        <option value="7" <?php if (!(strcmp(7, ""))) {echo "SELECTED";} ?>>Justice & Equality</option>
-        <option value="8" <?php if (!(strcmp(8, ""))) {echo "SELECTED";} ?>>National Security</option>
-        <option value="9" <?php if (!(strcmp(9, ""))) {echo "SELECTED";} ?>>God</option>
-        <option value="10" <?php if (!(strcmp(10, ""))) {echo "SELECTED";} ?>>Humanity</option>
+        <option value="1">General</option>
+        <option value="2">Economy</option>
+        <option value="3">Jobs</option>
+        <option value="4">Education</option>
+        <option value="5">Environment</option>
+        <option value="6">Health</option>
+        <option value="7">Justice & Equality</option>
+        <option value="8">National Security</option>
+        <option value="9">God</option>
+        <option value="10">Humanity</option>
       </select>
       </td>
     </tr>

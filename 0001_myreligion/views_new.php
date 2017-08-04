@@ -1,5 +1,4 @@
-<?php require_once('../Connections/conn.php'); ?>
-<?php
+<?php require_once('../Connections/conn.php'); ?><?php
 if (!isset($_SESSION)) {
   session_start();
 }
@@ -45,27 +44,6 @@ if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("",$MM_authorizedUsers,
 }
 ?>
 <?php
-// *** Redirect if username exists
-$MM_flag="MM_insert";
-if (isset($_POST[$MM_flag])) {
-  $MM_dupKeyRedirect="create_religion_error.php";
-  $loginUsername = $_POST['religion_name'];
-  $LoginRS__query = "SELECT religion_name FROM religions WHERE religion_name=" . GetSQLValueString($loginUsername, 'text');
-  mysql_select_db($database_conn, $conn);
-  $LoginRS=mysql_query($LoginRS__query, $conn) or die(mysql_error());
-  $loginFoundUser = mysql_num_rows($LoginRS);
-
-  //if there is a row in the database, the username was found - can not add the requested username
-  if($loginFoundUser){
-    $MM_qsChar = "?";
-    //append the username to the redirect page
-    if (substr_count($MM_dupKeyRedirect,"?") >=1) $MM_qsChar = "&";
-    $MM_dupKeyRedirect = $MM_dupKeyRedirect . $MM_qsChar ."requsername=".$loginUsername;
-    header ("Location: $MM_dupKeyRedirect");
-    exit;
-  }
-}
-
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
@@ -97,57 +75,74 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO religions (user_id, religion_name, religion_description, religion_type) VALUES (%s, %s, %s, %s)",
-                       GetSQLValueString($_POST['user_id'], "int"),
-                       GetSQLValueString($_POST['religion_name'], "text"),
-                       GetSQLValueString($_POST['religion_description'], "text"),
-                       GetSQLValueString($_POST['religion_type'], "text"));
+  $insertSQL = sprintf("INSERT INTO religions_view (view_user_id, religion_id, view_description, category_id, view_created_dt) VALUES (%s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['view_user_id'], "int"),
+                       GetSQLValueString($_POST['religion_id'], "int"),
+                       GetSQLValueString($_POST['view_description'], "text"),
+                       GetSQLValueString($_POST['category_id'], "int"),
+                       GetSQLValueString($_POST['view_created_dt'], "date"));
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
-
-  $insertGoTo = "create_religion_confirm.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $insertGoTo));
 }
-?><!doctype html>
-<html>
+
+$colname_rsReligion = "-1";
+if (isset($_GET['religion_id'])) {
+  $colname_rsReligion = (get_magic_quotes_gpc()) ? $_GET['religion_id'] : addslashes($_GET['religion_id']);
+}
+mysql_select_db($database_conn, $conn);
+$query_rsReligion = sprintf("SELECT * FROM religions WHERE religion_id = %s", $colname_rsReligion);
+$rsReligion = mysql_query($query_rsReligion, $conn) or die(mysql_error());
+$row_rsReligion = mysql_fetch_assoc($rsReligion);
+$totalRows_rsReligion = mysql_num_rows($rsReligion);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8">
-<title>Create New Religion</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
 </head>
 
 <body>
-<h1>Create New Religion</h1>
+<h1>Add New Views For  &quot;<?php echo $row_rsReligion['religion_name']; ?>&quot;</h1>
+<p>&nbsp;</p>
+
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <table>
     <tr valign="baseline">
-      <td nowrap align="right"><strong>Religion Name:</strong></td>
-      <td><input type="text" name="religion_name" value="" size="32"></td>
+      <td nowrap align="right" valign="top">Views / Opinion / Issues:</td>
+      <td><textarea name="view_description" cols="50" rows="5"></textarea>
+      </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top"><strong>Religion Description:</strong></td>
-      <td><textarea name="religion_description" cols="50" rows="5"></textarea>      </td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right"><strong>Religion Type </strong></td>
-      <td><label>
-        <input name="religion_type" type="radio" value="public">
-      Public (Anyone in world can add views)
-      <input name="religion_type" type="radio" value="closed" checked>
-      Closed (Only User can add views) </label></td>
+      <td nowrap align="right">Category_id:</td>
+      <td><select name="category_id">
+        <option value="1">General</option>
+        <option value="2">Economy</option>
+        <option value="3">Jobs</option>
+        <option value="4">Education</option>
+        <option value="5">Environment</option>
+        <option value="6">Health</option>
+        <option value="7">Justice & Equality</option>
+        <option value="8">National Security</option>
+        <option value="9">God</option>
+        <option value="10">Humanity</option>
+      </select>
+      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
       <td><input type="submit" value="Insert record"></td>
     </tr>
   </table>
-  <input type="hidden" name="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>">
+  <input type="hidden" name="view_user_id" value="<?php echo $_SESSION['MM_UserId']; ?>">
+  <input type="hidden" name="religion_id" value="<?php echo $_GET['religion_id']; ?>">
+  <input type="hidden" name="view_created_dt" value="<?php echo date('Y-m-d H:i:s'); ?>">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
 <p>&nbsp;</p>
 </body>
 </html>
+<?php
+mysql_free_result($rsReligion);
+?>
