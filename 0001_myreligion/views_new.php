@@ -95,6 +95,10 @@ $query_rsReligion = sprintf("SELECT * FROM religions WHERE religion_id = %s", $c
 $rsReligion = mysql_query($query_rsReligion, $conn) or die(mysql_error());
 $row_rsReligion = mysql_fetch_assoc($rsReligion);
 $totalRows_rsReligion = mysql_num_rows($rsReligion);
+
+include('checking_religion_status.php');
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -111,8 +115,7 @@ $totalRows_rsReligion = mysql_num_rows($rsReligion);
   <table>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Views / Opinion / Issues:</td>
-      <td><textarea name="view_description" cols="50" rows="5"></textarea>
-      </td>
+      <td><textarea name="view_description" cols="50" rows="5"></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Category_id:</td>
@@ -127,8 +130,23 @@ $totalRows_rsReligion = mysql_num_rows($rsReligion);
         <option value="8">National Security</option>
         <option value="9">God</option>
         <option value="10">Humanity</option>
-      </select>
-      </td>
+      </select>      </td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">Image:</td>
+      <td><label>
+        <input type="text" name="textfield" />
+      </label></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">Videos (Youtube URL) </td>
+      <td><label>
+        <input type="text" name="textfield2" />
+      </label></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">Links / PDF / Document: </td>
+      <td><input type="text" name="textfield3" /></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>

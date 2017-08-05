@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="create_religion.php" local="131462952132192880" remote="131462948860000000" testing="131462948860000000" />
+<file name="create_religion.php" local="131463831932183078" remote="131463829320000000" testing="131463829320000000" />
 <file name="create_religion_confirm.php" local="131457775010422886" remote="131457773420000000" testing="131457773420000000" />
 <file name="create_views.php" local="131462970277729996" remote="131462966040000000" testing="131462966040000000" />
 <file name="create_views_confirm.php" local="131457786024250463" remote="131457782010000000" testing="131457782010000000" />
@@ -8,5 +8,6 @@
 <file name="index.php" local="131462960261227805" remote="131462957450000000" testing="131462957450000000" />
 <file name="create_religion_error.php" local="131462948953514502" remote="131462948860000000" testing="131462948860000000" />
 <file name="views.php" local="131462957521227692" remote="131462957450000000" testing="131462957450000000" />
-<file name="views_new.php" local="131462970340587580" remote="131462970330000000" testing="131462970330000000" />
+<file name="views_new.php" local="131463832488158806" remote="131463829320000000" testing="131463829320000000" />
+<file name="checking_religion_status.php" local="131463829504243833" remote="131463829320000000" testing="131463829320000000" />
 </dwsync>

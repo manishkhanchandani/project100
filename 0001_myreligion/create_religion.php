@@ -122,7 +122,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 <body>
 <h1>Create New Religion</h1>
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
   <table>
     <tr valign="baseline">
       <td nowrap align="right"><strong>Religion Name:</strong></td>
@@ -139,6 +139,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
       Public (Anyone in world can add views)
       <input name="religion_type" type="radio" value="closed" checked>
       Closed (Only User can add views) </label></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right"><strong>Religion Image: </strong></td>
+      <td><label>
+        <input name="religion_image" type="file" id="religion_image" size="55">
+      </label></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
