@@ -383,12 +383,13 @@ CREATE TABLE `religions` (
   `religion_creation_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `religion_status` int(1) NOT NULL DEFAULT '0',
   `religion_type` enum('public','closed') NOT NULL DEFAULT 'closed',
+  `religion_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`religion_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions` */
 
-insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`,`religion_type`) values (1,1,'Manny\'s Religion','All about my views','2017-08-03 21:41:46',1,'closed'),(2,1,'Hindu Religion','All about hindu religion','2017-08-03 21:41:48',1,'public');
+insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`,`religion_type`,`religion_image`) values (1,1,'Manny\'s Religion','All about my views','2017-08-04 22:03:03',1,'closed',NULL),(2,1,'Hindu Religion','All about hindu religion','2017-08-03 21:41:48',1,'public',NULL);
 
 /*Table structure for table `religions_follower` */
 
@@ -429,12 +430,16 @@ CREATE TABLE `religions_view` (
   `view_description` text,
   `category_id` int(2) DEFAULT NULL,
   `view_created_dt` datetime DEFAULT NULL,
+  `view_status` int(1) NOT NULL DEFAULT '0',
+  `view_images` text,
+  `view_videos` text,
+  `view_links` text,
   PRIMARY KEY (`view_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions_view` */
 
-insert  into `religions_view`(`view_id`,`view_user_id`,`religion_id`,`view_description`,`category_id`,`view_created_dt`) values (1,1,1,'There is only one GOD and it controls all world.',9,'2017-08-03 22:10:46'),(2,1,1,'Every one should eat natural foods',6,'2017-08-03 22:12:55');
+insert  into `religions_view`(`view_id`,`view_user_id`,`religion_id`,`view_description`,`category_id`,`view_created_dt`,`view_status`,`view_images`,`view_videos`,`view_links`) values (1,1,1,'There is only one GOD and it controls all world.',9,'2017-08-03 22:10:46',0,NULL,NULL,NULL),(2,1,1,'Every one should eat natural foods',6,'2017-08-03 22:12:55',0,NULL,NULL,NULL),(3,1,1,'fsddsds',1,'2017-08-04 21:35:00',0,NULL,NULL,NULL);
 
 /*Table structure for table `rf_comments` */
 
