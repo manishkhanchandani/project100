@@ -74,13 +74,28 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
+
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO religions_view (view_user_id, religion_id, view_description, category_id, view_created_dt) VALUES (%s, %s, %s, %s, %s)",
+	$_POST['view_images'] = array_filter($_POST['view_images']);
+	$_POST['view_videos'] = array_filter($_POST['view_videos']);
+	$_POST['view_links'] = array_filter($_POST['view_links']);
+	
+	$_POST['view_images'] = json_encode($_POST['view_images']);
+	$_POST['view_videos'] = json_encode($_POST['view_videos']);
+	$_POST['view_links'] = json_encode($_POST['view_links']);
+}
+
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+  $insertSQL = sprintf("INSERT INTO religions_view (view_user_id, religion_id, view_description, category_id, view_created_dt, view_images, view_videos, view_links) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['view_user_id'], "int"),
                        GetSQLValueString($_POST['religion_id'], "int"),
                        GetSQLValueString($_POST['view_description'], "text"),
                        GetSQLValueString($_POST['category_id'], "int"),
-                       GetSQLValueString($_POST['view_created_dt'], "date"));
+                       GetSQLValueString($_POST['view_created_dt'], "date"),
+                       GetSQLValueString($_POST['view_images'], "text"),
+                       GetSQLValueString($_POST['view_videos'], "text"),
+                       GetSQLValueString($_POST['view_links'], "text"));
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
@@ -105,6 +120,7 @@ include('checking_religion_status.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Untitled Document</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
 </head>
 
 <body>
@@ -134,19 +150,57 @@ include('checking_religion_status.php');
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Image:</td>
-      <td><label>
-        <input type="text" name="textfield" />
-      </label></td>
+      <td>
+	  	<div id="images">
+        <input name="view_images[]" type="text" id="view_images[]" size="55" placeholder="Add Image URL" />
+        <input name="moreImage" type="button" id="moreImage" value="Add More Images" onclick="addMoreImages();" />
+		</div>
+		<div id="images2" style="display:none;">
+		<br />
+		<input name="view_images[]" type="text" id="view_images[]" size="55" placeholder="Add Image URL" />
+		</div>
+		<script>
+			function addMoreImages() {
+				$('#images').append($('#images2').html());
+			}
+		</script>
+      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Videos (Youtube URL) </td>
-      <td><label>
-        <input type="text" name="textfield2" />
-      </label></td>
+      <td>
+	  	<div id="videos">
+        <input name="view_videos[]" type="text" id="view_videos[]" size="55" placeholder="Add Youtube URLS" />
+        <input name="moreVideos" type="button" id="moreVideos" value="Add More Videos" onclick="addMoreVideos();" />
+		</div>
+		<div id="videos2" style="display:none;">
+			<br />
+			<input name="view_videos[]" type="text" id="view_videos[]" size="55" placeholder="Add Youtube URLS" />
+		</div>
+		<script>
+			function addMoreVideos() {
+				$('#videos').append($('#videos2').html());
+			}
+		</script>
+      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Links / PDF / Document: </td>
-      <td><input type="text" name="textfield3" /></td>
+      <td>
+	  	<div id="links">
+			<input name="view_links[]" type="text" id="view_links[]" size="55" placeholder="Add Links" />
+      		<input name="moreLinks" type="button" id="moreLinks" value="Add More Links" onclick="addMoreLinks();" />
+		</div>
+		<div id="links2" style="display:none;">
+			<br />
+			<input name="view_links[]" type="text" id="view_links[]" size="55" placeholder="Add Links" />
+		</div>
+		<script>
+			function addMoreLinks() {
+				$('#links').append($('#links2').html());
+			}
+		</script>
+	  </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>

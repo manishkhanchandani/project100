@@ -385,11 +385,11 @@ CREATE TABLE `religions` (
   `religion_type` enum('public','closed') NOT NULL DEFAULT 'closed',
   `religion_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`religion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions` */
 
-insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`,`religion_type`,`religion_image`) values (1,1,'Manny\'s Religion','All about my views','2017-08-04 22:03:03',1,'closed',NULL),(2,1,'Hindu Religion','All about hindu religion','2017-08-03 21:41:48',1,'public',NULL);
+insert  into `religions`(`religion_id`,`user_id`,`religion_name`,`religion_description`,`religion_creation_dt`,`religion_status`,`religion_type`,`religion_image`) values (1,1,'Hindu Religion','My hindu Religion','2017-08-07 21:47:43',1,'public','http://www.hinduhumanrights.info/wp-content/uploads/2012/05/the-gods.jpg');
 
 /*Table structure for table `religions_follower` */
 
@@ -435,11 +435,11 @@ CREATE TABLE `religions_view` (
   `view_videos` text,
   `view_links` text,
   PRIMARY KEY (`view_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions_view` */
 
-insert  into `religions_view`(`view_id`,`view_user_id`,`religion_id`,`view_description`,`category_id`,`view_created_dt`,`view_status`,`view_images`,`view_videos`,`view_links`) values (1,1,1,'There is only one GOD and it controls all world.',9,'2017-08-03 22:10:46',0,NULL,NULL,NULL),(2,1,1,'Every one should eat natural foods',6,'2017-08-03 22:12:55',0,NULL,NULL,NULL),(3,1,1,'fsddsds',1,'2017-08-04 21:35:00',0,NULL,NULL,NULL);
+insert  into `religions_view`(`view_id`,`view_user_id`,`religion_id`,`view_description`,`category_id`,`view_created_dt`,`view_status`,`view_images`,`view_videos`,`view_links`) values (1,1,1,'dfdf',1,'2017-08-07 22:20:08',0,'[\"http:\\/\\/www.hinduhumanrights.info\\/wp-content\\/uploads\\/2012\\/05\\/the-gods.jpg\",\"https:\\/\\/s-media-cache-ak0.pinimg.com\\/originals\\/e6\\/29\\/be\\/e629be49b24410f5c4abb1d694d6e3db.jpg\",\"https:\\/\\/upload.wikimedia.org\\/wikipedia\\/commons\\/thumb\\/8\\/8e\\/Om.svg\\/983px-Om.svg.png\"]','[\"https:\\/\\/www.youtube.com\\/watch?v=I4UksW5gC2Q\",\"https:\\/\\/www.youtube.com\\/watch?v=CEPlNChrQZ0\",\"https:\\/\\/www.youtube.com\\/watch?v=S-OSYNEfR7k\"]','[\"http:\\/\\/google.com\",\"http:\\/\\/facebook.com\"]');
 
 /*Table structure for table `rf_comments` */
 

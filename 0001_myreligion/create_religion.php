@@ -97,11 +97,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO religions (user_id, religion_name, religion_description, religion_type) VALUES (%s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO religions (user_id, religion_name, religion_description, religion_type, religion_image) VALUES (%s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['user_id'], "int"),
                        GetSQLValueString($_POST['religion_name'], "text"),
                        GetSQLValueString($_POST['religion_description'], "text"),
-                       GetSQLValueString($_POST['religion_type'], "text"));
+                       GetSQLValueString($_POST['religion_type'], "text"),
+                       GetSQLValueString($_POST['religion_image'], "text"));
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
@@ -143,7 +144,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr valign="baseline">
       <td nowrap align="right"><strong>Religion Image: </strong></td>
       <td><label>
-        <input name="religion_image" type="file" id="religion_image" size="55">
+        <input name="religion_image" type="text" id="religion_image" size="55">
       </label></td>
     </tr>
     <tr valign="baseline">
