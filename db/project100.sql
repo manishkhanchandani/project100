@@ -415,7 +415,7 @@ CREATE TABLE `religions_like` (
   `like_id` int(11) NOT NULL AUTO_INCREMENT,
   `view_id` int(11) DEFAULT NULL,
   `like_user_id` int(11) DEFAULT NULL,
-  `like_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `like_date` datetime NOT NULL,
   PRIMARY KEY (`like_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
