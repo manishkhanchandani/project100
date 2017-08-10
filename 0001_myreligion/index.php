@@ -52,14 +52,15 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
 <?php if ($totalRows_rsView > 0) { // Show if recordset not empty ?>
   <table border="1">
     <tr>
-      <td valign="top">religion_id</td>
-      <td valign="top">user_id</td>
-      <td valign="top">religion_name</td>
-      <td valign="top">religion_description</td>
-      <td valign="top">religion_creation_dt</td>
-      <td valign="top">religion_status</td>
-      <td valign="top">Views / Opinion / Issues / Ideas </td>
-      <td valign="top">Add New Views </td>
+      <td valign="top"><strong>religion_id</strong></td>
+      <td valign="top"><strong>user_id</strong></td>
+      <td valign="top"><strong>religion_name</strong></td>
+      <td valign="top"><strong>religion_description</strong></td>
+      <td valign="top"><strong>religion_creation_dt</strong></td>
+      <td valign="top"><strong>religion_status</strong></td>
+      <td valign="top"><strong>Verses</strong></td>
+      <td valign="top"><strong>Add New Views </strong></td>
+      <td valign="top"><strong>Follow</strong></td>
     </tr>
     <?php do { ?>
       <tr>
@@ -69,8 +70,9 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
         <td valign="top"><?php echo $row_rsView['religion_description']; ?></td>
         <td valign="top"><?php echo $row_rsView['religion_creation_dt']; ?></td>
         <td valign="top"><?php echo $row_rsView['religion_status']; ?></td>
-        <td valign="top"><a href="views.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Views</a></td>
+        <td valign="top">Verses</td>
         <td valign="top"><a href="views_new.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Create New Views</a></td>
+        <td valign="top"><a href="follow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Follow</a></td>
       </tr>
       <?php } while ($row_rsView = mysql_fetch_assoc($rsView)); ?>
   </table>

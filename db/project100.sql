@@ -399,11 +399,13 @@ CREATE TABLE `religions_follower` (
   `follower_id` int(11) NOT NULL AUTO_INCREMENT,
   `religion_id` int(11) DEFAULT NULL,
   `follower_user_id` int(11) DEFAULT NULL,
-  `follower_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `follower_date` datetime DEFAULT NULL,
   PRIMARY KEY (`follower_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `religions_follower` */
+
+insert  into `religions_follower`(`follower_id`,`religion_id`,`follower_user_id`,`follower_date`) values (1,1,1,'2017-08-09 22:08:02'),(2,1,3,'2017-08-09 22:10:38');
 
 /*Table structure for table `religions_like` */
 
