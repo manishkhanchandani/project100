@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsReligion" value="name:religion_id;datatype:int,name:user_id;datatype:int,name:religion_name;datatype:string,name:religion_description;datatype:blob,name:religion_creation_dt;datatype:timestamp,name:religion_status;datatype:int,name:religion_type;datatype:string,name:religion_image;datatype:string" />
+	<infoitem key="UD_rsVerses" value="name:view_id;datatype:int,name:view_user_id;datatype:int,name:religion_id;datatype:int,name:view_description;datatype:blob,name:category_id;datatype:int,name:view_created_dt;datatype:datetime,name:view_status;datatype:int,name:view_images;datatype:blob,name:view_videos;datatype:blob,name:view_links;datatype:blob" />
+</info>
