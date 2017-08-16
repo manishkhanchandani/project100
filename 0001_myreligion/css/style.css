@@ -3,3 +3,7 @@
 body {
 	padding-top: 50px;
 }
+
+.detailImage {
+	max-width: 100px;
+}

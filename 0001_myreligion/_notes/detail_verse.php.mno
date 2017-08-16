@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsVerse" value="name:view_id;datatype:int,name:view_user_id;datatype:int,name:religion_id;datatype:int,name:view_description;datatype:blob,name:category_id;datatype:int,name:view_created_dt;datatype:datetime,name:view_status;datatype:int,name:view_images;datatype:blob,name:view_videos;datatype:blob,name:view_links;datatype:blob" />
+</info>

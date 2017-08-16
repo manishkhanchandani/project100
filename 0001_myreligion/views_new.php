@@ -115,26 +115,77 @@ include('checking_religion_status.php');
 
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
+<meta charset="utf-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Add New Verse</title>
+<!-- InstanceEndEditable -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- InstanceBeginEditable name="head" -->
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<!-- InstanceEndEditable -->
 </head>
 
 <body>
-<h1>Add New Views For  &quot;<?php echo $row_rsReligion['religion_name']; ?>&quot;</h1>
-<p>&nbsp;</p>
 
-<form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <table>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Bootstrap theme</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+<!-- InstanceBeginEditable name="EditRegion3" -->
+<div class="container">
+	<h3>Add New Verse For  &quot;<?php echo $row_rsReligion['religion_name']; ?>&quot;</h3>
+	<p><a href="detail.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Go Back To Religion Page </a></p>
+
+    <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+  <div class="table-responsive">
+      <table class="table table-striped">
     <tr valign="baseline">
-      <td nowrap align="right" valign="top">Views / Opinion / Issues:</td>
+      <td nowrap align="right" valign="top"><strong>Verse:</strong></td>
       <td><textarea name="view_description" cols="50" rows="5"></textarea>      </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Category_id:</td>
+      <td nowrap align="right"><strong>Category Id:</strong></td>
       <td><select name="category_id">
         <option value="1">General</option>
         <option value="2">Economy</option>
@@ -149,11 +200,11 @@ include('checking_religion_status.php');
       </select>      </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Image:</td>
+      <td nowrap align="right"><strong>Image:</strong></td>
       <td>
 	  	<div id="images">
         <input name="view_images[]" type="text" id="view_images[]" size="55" placeholder="Add Image URL" />
-        <input name="moreImage" type="button" id="moreImage" value="Add More Images" onclick="addMoreImages();" />
+        <input name="moreImage" type="button" id="moreImage" value="Add More Images" onClick="addMoreImages();" />
 		</div>
 		<div id="images2" style="display:none;">
 		<br />
@@ -163,15 +214,14 @@ include('checking_religion_status.php');
 			function addMoreImages() {
 				$('#images').append($('#images2').html());
 			}
-		</script>
-      </td>
+		</script>      </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Videos (Youtube URL) </td>
+      <td nowrap align="right"><strong>Videos (Youtube URL) </strong></td>
       <td>
 	  	<div id="videos">
         <input name="view_videos[]" type="text" id="view_videos[]" size="55" placeholder="Add Youtube URLS" />
-        <input name="moreVideos" type="button" id="moreVideos" value="Add More Videos" onclick="addMoreVideos();" />
+        <input name="moreVideos" type="button" id="moreVideos" value="Add More Videos" onClick="addMoreVideos();" />
 		</div>
 		<div id="videos2" style="display:none;">
 			<br />
@@ -181,15 +231,14 @@ include('checking_religion_status.php');
 			function addMoreVideos() {
 				$('#videos').append($('#videos2').html());
 			}
-		</script>
-      </td>
+		</script>      </td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right">Links / PDF / Document: </td>
+      <td nowrap align="right"><strong>Links / PDF / Document: </strong></td>
       <td>
 	  	<div id="links">
 			<input name="view_links[]" type="text" id="view_links[]" size="55" placeholder="Add Links" />
-      		<input name="moreLinks" type="button" id="moreLinks" value="Add More Links" onclick="addMoreLinks();" />
+      		<input name="moreLinks" type="button" id="moreLinks" value="Add More Links" onClick="addMoreLinks();" />
 		</div>
 		<div id="links2" style="display:none;">
 			<br />
@@ -199,22 +248,25 @@ include('checking_religion_status.php');
 			function addMoreLinks() {
 				$('#links').append($('#links2').html());
 			}
-		</script>
-	  </td>
+		</script>	  </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="Insert record"></td>
+      <td><input type="submit" value="Add New Verse"></td>
     </tr>
   </table>
+  </div>
   <input type="hidden" name="view_user_id" value="<?php echo $_SESSION['MM_UserId']; ?>">
   <input type="hidden" name="religion_id" value="<?php echo $_GET['religion_id']; ?>">
   <input type="hidden" name="view_created_dt" value="<?php echo date('Y-m-d H:i:s'); ?>">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
 <p>&nbsp;</p>
+</div>
+<!-- InstanceEndEditable -->
+
 </body>
-</html>
+<!-- InstanceEnd --></html>
 <?php
 mysql_free_result($rsReligion);
 ?>

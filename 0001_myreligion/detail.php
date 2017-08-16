@@ -2,6 +2,52 @@
 <?php
 $currentPage = $_SERVER["PHP_SELF"];
 
+$categories = array(1 => 'General', 2 => 'Economy', 3 => 'Jobs', 4 => 'Education', 5 => 'Environment', 6 => 'Health', 7 => 'Justice & Equality', 8 => 'National Security', 9 => 'God', 10 => 'Humanity');
+
+$keyword = '';
+if (!empty($_GET['keyword'])) {
+	$keyword = $_GET['keyword'];
+}
+
+
+
+
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? "'" . doubleval($theValue) . "'" : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+
+
+if ((isset($_GET['delete_id'])) && ($_GET['delete_id'] != "")) {
+  $deleteSQL = sprintf("UPDATE religions_view SET view_status=3 WHERE view_id=%s",
+					   GetSQLValueString($_GET['delete_id'], "int"));
+
+  mysql_select_db($database_conn, $conn);
+  $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
+}
+
+
+
 $colname_rsReligion = "-1";
 if (isset($_GET['religion_id'])) {
   $colname_rsReligion = (get_magic_quotes_gpc()) ? $_GET['religion_id'] : addslashes($_GET['religion_id']);
@@ -24,7 +70,7 @@ if (isset($_GET['religion_id'])) {
   $colname_rsVerses = (get_magic_quotes_gpc()) ? $_GET['religion_id'] : addslashes($_GET['religion_id']);
 }
 mysql_select_db($database_conn, $conn);
-$query_rsVerses = sprintf("SELECT * FROM religions_view WHERE religion_id = %s", $colname_rsVerses);
+$query_rsVerses = sprintf("SELECT * FROM religions_view WHERE religion_id = %s AND view_status = 1", $colname_rsVerses);
 $query_limit_rsVerses = sprintf("%s LIMIT %d, %d", $query_rsVerses, $startRow_rsVerses, $maxRows_rsVerses);
 $rsVerses = mysql_query($query_limit_rsVerses, $conn) or die(mysql_error());
 $row_rsVerses = mysql_fetch_assoc($rsVerses);
@@ -114,41 +160,56 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 		<div class="col-md-5"><img src="<?php echo $row_rsReligion['religion_image']; ?>" class="img-responsive img-thumbnail" /></div>
 		<div class="col-md-7">
 			<div><?php echo $row_rsReligion['religion_description']; ?></div>
-			<div><strong>Religion Type:</strong> <?php echo ucfirst($row_rsReligion['religion_type']); ?></div>
+			<div>
+			  <p>&nbsp;</p>
+			  <p><strong>Religion Type:</strong> <?php echo ucfirst($row_rsReligion['religion_type']); ?></p>
+			  <p><a href="views_new.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Add New Verse</a> </p>
+			</div>
 		</div>
 	</div>
 	
 	<?php if ($totalRows_rsVerses > 0) { // Show if recordset not empty ?>
 	  <h3 class="page-header">Verses</h3>
+	  <form method="get">
+	    <strong>Keyword:</strong> 
+	    <label>
+	    <input name="keyword" type="text" id="keyword" size="32" value="<?php echo $keyword; ?>">
+	    </label>
+	  
+	    <label>
+	    <input name="submit" type="submit" id="submit" value="Search">
+    </label>
+        <input name="religion_id" type="hidden" id="religion_id" value="<?php echo $row_rsReligion['religion_id']; ?>"> <span class="pull-right"><a href="copyAll.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Copy All Verses</a> | Delete All Verses</span>
+      </form>
     <div class="table-responsive">
 	    <table class="table table-striped">
           <tr>
-            <td>&nbsp;</td>
-            <td><strong>Verse Description </strong></td>
-            <td><strong>Category</strong></td>
-            <td><strong>Detail Verse </strong></td>
-            <td><strong>Like</strong></td>
-            <td><strong>Delete</strong></td>
+            <td valign="top">&nbsp;</td>
+            <td valign="top"><strong>Verse Description </strong></td>
+            <td valign="top"><strong>Category</strong></td>
+            <td valign="top"><strong>Detail Verse </strong></td>
+            <td valign="top"><strong>Like</strong></td>
+            <td valign="top">Copy</td>
+            <td valign="top"><strong>Delete</strong></td>
           </tr>
           <?php do { ?>
 	        <tr>
-	          <td>
+	          <td valign="top" class="detailImage">
 			  	<?php $images = json_decode($row_rsVerses['view_images'], true);
 					
 						?>
-						<div><img src="<?php echo $images[0]; ?>" class="img-responsive" /></div>
-						
-			  </td>
-	          <td><?php echo $row_rsVerses['view_description']; ?></td>
-	          <td><?php echo $row_rsVerses['category_id']; ?></td>
-	          <td>Detail Verse </td>
-	          <td>Like</td>
-	          <td>Delete</td>
+			  <div><img src="<?php echo $images[0]; ?>" class="img-responsive" /></div>			  </td>
+	          <td valign="top"><?php echo $row_rsVerses['view_description']; ?></td>
+	          <td valign="top"><?php echo $categories[$row_rsVerses['category_id']]; ?></td>
+	          <td valign="top"><a href="detail_verse.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&view_id=<?php echo $row_rsVerses['view_id']; ?>">Detail Verse</a> </td>
+	          <td valign="top">Like</td>
+	          <td valign="top"><a href="copy.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Copy</a></td>
+	          <td valign="top"><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Delete</a></td>
             </tr>
 	        <?php } while ($row_rsVerses = mysql_fetch_assoc($rsVerses)); ?>
-                    </table>
+      </table>
 	   
-          </div>
+    </div>
 		  
 		   <p> Records <?php echo ($startRow_rsVerses + 1) ?> to <?php echo min($startRow_rsVerses + $maxRows_rsVerses, $totalRows_rsVerses) ?> of <?php echo $totalRows_rsVerses ?></p>
 	      <table border="0" width="50%" align="center">
@@ -166,7 +227,7 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
                 <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, $totalPages_rsVerses, $queryString_rsVerses); ?>">Last</a>
                     <?php } // Show if not last page ?>                                </td>
             </tr>
-                    </table>
+    </table>
 
 	  <?php } // Show if recordset not empty ?><p>&nbsp;</p>
 </div>
