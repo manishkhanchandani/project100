@@ -86,17 +86,27 @@ $rsReligion = mysql_query($query_rsReligion, $conn) or die(mysql_error());
 $row_rsReligion = mysql_fetch_assoc($rsReligion);
 $totalRows_rsReligion = mysql_num_rows($rsReligion);
 
+$colname_rsVerse = "-1";
+if (isset($_GET['view_id'])) {
+  $colname_rsVerse = (get_magic_quotes_gpc()) ? $_GET['view_id'] : addslashes($_GET['view_id']);
+}
+mysql_select_db($database_conn, $conn);
+$query_rsVerse = sprintf("SELECT * FROM religions_view WHERE view_id = %s", $colname_rsVerse);
+$rsVerse = mysql_query($query_rsVerse, $conn) or die(mysql_error());
+$row_rsVerse = mysql_fetch_assoc($rsVerse);
+$totalRows_rsVerse = mysql_num_rows($rsVerse);
+
 if (!empty($_GET["religion_id"])) {
-	$sql = sprintf("SELECT * FROM religions_follower WHERE religion_id = %s AND follower_user_id = %s",
-                       GetSQLValueString($_GET['religion_id'], "int"),
+	$sql = sprintf("SELECT * FROM religions_like WHERE view_id = %s AND like_user_id = %s",
+                       GetSQLValueString($_GET['view_id'], "int"),
                        GetSQLValueString($_SESSION['MM_UserId'], "int"));
 	
 	$rs = mysql_query($sql, $conn) or die(mysql_error());
 	$numberOfRows = mysql_num_rows($rs);
 	
 	if ($numberOfRows == 0) {
-  $insertSQL = sprintf("INSERT INTO religions_follower (religion_id, follower_user_id, follower_date) VALUES (%s, %s, %s)",
-                       GetSQLValueString($_GET['religion_id'], "int"),
+  $insertSQL = sprintf("INSERT INTO religions_like (view_id, like_user_id, like_date) VALUES (%s, %s, %s)",
+                       GetSQLValueString($_GET['view_id'], "int"),
                        GetSQLValueString($_SESSION['MM_UserId'], "int"),
                        GetSQLValueString(date('Y-m-d H:i:s'), "date"));
 
@@ -106,7 +116,24 @@ if (!empty($_GET["religion_id"])) {
   }
 }
 
-header("Location: home.php");
+header("Location: detail.php?religion_id=".$_GET["religion_id"]);
 exit;
+?>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>display</title>
+
+</head>
+
+<body>
+<h1>Confirmation</h1>
+<p>You have successfully liked the verse &quot;<?php echo $row_rsVerse['view_description']; ?>&quot; </p>
+</body>
+</html>
+<?php
 mysql_free_result($rsReligion);
+
+mysql_free_result($rsVerse);
 ?>

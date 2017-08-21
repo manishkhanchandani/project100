@@ -87,26 +87,16 @@ $row_rsReligion = mysql_fetch_assoc($rsReligion);
 $totalRows_rsReligion = mysql_num_rows($rsReligion);
 
 if (!empty($_GET["religion_id"])) {
-	$sql = sprintf("SELECT * FROM religions_follower WHERE religion_id = %s AND follower_user_id = %s",
+	$sql = sprintf("DELETE FROM religions_follower WHERE religion_id = %s AND follower_user_id = %s",
                        GetSQLValueString($_GET['religion_id'], "int"),
                        GetSQLValueString($_SESSION['MM_UserId'], "int"));
 	
+	mysql_select_db($database_conn, $conn);
 	$rs = mysql_query($sql, $conn) or die(mysql_error());
-	$numberOfRows = mysql_num_rows($rs);
-	
-	if ($numberOfRows == 0) {
-  $insertSQL = sprintf("INSERT INTO religions_follower (religion_id, follower_user_id, follower_date) VALUES (%s, %s, %s)",
-                       GetSQLValueString($_GET['religion_id'], "int"),
-                       GetSQLValueString($_SESSION['MM_UserId'], "int"),
-                       GetSQLValueString(date('Y-m-d H:i:s'), "date"));
-
-  mysql_select_db($database_conn, $conn);
-  $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
-  
-  }
 }
 
 header("Location: home.php");
 exit;
+
 mysql_free_result($rsReligion);
 ?>

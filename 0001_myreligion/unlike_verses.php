@@ -75,38 +75,16 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-
-$colname_rsReligion = "-1";
-if (isset($_GET['religion_id'])) {
-  $colname_rsReligion = (get_magic_quotes_gpc()) ? $_GET['religion_id'] : addslashes($_GET['religion_id']);
-}
-mysql_select_db($database_conn, $conn);
-$query_rsReligion = sprintf("SELECT * FROM religions WHERE religion_id = %s", $colname_rsReligion);
-$rsReligion = mysql_query($query_rsReligion, $conn) or die(mysql_error());
-$row_rsReligion = mysql_fetch_assoc($rsReligion);
-$totalRows_rsReligion = mysql_num_rows($rsReligion);
-
 if (!empty($_GET["religion_id"])) {
-	$sql = sprintf("SELECT * FROM religions_follower WHERE religion_id = %s AND follower_user_id = %s",
-                       GetSQLValueString($_GET['religion_id'], "int"),
+	$sql = sprintf("DELETE FROM religions_like WHERE view_id = %s AND like_user_id = %s",
+                       GetSQLValueString($_GET['view_id'], "int"),
                        GetSQLValueString($_SESSION['MM_UserId'], "int"));
 	
+	mysql_select_db($database_conn, $conn);
 	$rs = mysql_query($sql, $conn) or die(mysql_error());
 	$numberOfRows = mysql_num_rows($rs);
-	
-	if ($numberOfRows == 0) {
-  $insertSQL = sprintf("INSERT INTO religions_follower (religion_id, follower_user_id, follower_date) VALUES (%s, %s, %s)",
-                       GetSQLValueString($_GET['religion_id'], "int"),
-                       GetSQLValueString($_SESSION['MM_UserId'], "int"),
-                       GetSQLValueString(date('Y-m-d H:i:s'), "date"));
-
-  mysql_select_db($database_conn, $conn);
-  $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
-  
-  }
 }
 
-header("Location: home.php");
+header("Location: detail.php?religion_id=".$_GET["religion_id"]);
 exit;
-mysql_free_result($rsReligion);
 ?>

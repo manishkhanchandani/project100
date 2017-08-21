@@ -1,5 +1,9 @@
 <?php require_once('../Connections/conn.php'); ?>
 <?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+
 $currentPage = $_SERVER["PHP_SELF"];
 
 $categories = array(1 => 'General', 2 => 'Economy', 3 => 'Jobs', 4 => 'Education', 5 => 'Environment', 6 => 'Health', 7 => 'Justice & Equality', 8 => 'National Security', 9 => 'God', 10 => 'Humanity');
@@ -44,6 +48,22 @@ if ((isset($_GET['delete_id'])) && ($_GET['delete_id'] != "")) {
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
+  
+  
+  header("Location: detail.php?religion_id=".$_GET['religion_id']);
+  exit;
+}
+
+
+if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "")) {
+  $deleteSQL = sprintf("UPDATE religions_view SET view_status=3 WHERE religion_id=%s",
+					   GetSQLValueString($_GET['delete_religion_id'], "int"));
+
+  mysql_select_db($database_conn, $conn);
+  $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
+  
+  header("Location: detail.php?religion_id=".$_GET['religion_id']);
+  exit;
 }
 
 
@@ -65,12 +85,20 @@ if (isset($_GET['pageNum_rsVerses'])) {
 }
 $startRow_rsVerses = $pageNum_rsVerses * $maxRows_rsVerses;
 
+$colname_user_id_rsVerses = "-1";
+if (isset($_SESSION['MM_UserId'])) {
+  $colname_user_id_rsVerses = (get_magic_quotes_gpc()) ? $_SESSION['MM_UserId'] : addslashes($_SESSION['MM_UserId']);
+}
+$colname2_rsVerses = "%";
+if (isset($_GET['keyword'])) {
+  $colname2_rsVerses = (get_magic_quotes_gpc()) ? $_GET['keyword'] : addslashes($_GET['keyword']);
+}
 $colname_rsVerses = "-1";
 if (isset($_GET['religion_id'])) {
   $colname_rsVerses = (get_magic_quotes_gpc()) ? $_GET['religion_id'] : addslashes($_GET['religion_id']);
 }
 mysql_select_db($database_conn, $conn);
-$query_rsVerses = sprintf("SELECT * FROM religions_view WHERE religion_id = %s AND view_status = 1", $colname_rsVerses);
+$query_rsVerses = sprintf("SELECT religions_view.*, religions_like.like_id, religions_like.view_id as view_id2, religions_like.like_user_id, religions_like.like_date  FROM religions_view LEFT JOIN religions_like ON religions_view.view_id = religions_like.view_id AND religions_like.like_user_id = %s WHERE religions_view.religion_id = %s AND religions_view.view_status = 1 AND view_description LIKE '%%%s%%'", $colname_user_id_rsVerses,$colname_rsVerses,$colname2_rsVerses);
 $query_limit_rsVerses = sprintf("%s LIMIT %d, %d", $query_rsVerses, $startRow_rsVerses, $maxRows_rsVerses);
 $rsVerses = mysql_query($query_limit_rsVerses, $conn) or die(mysql_error());
 $row_rsVerses = mysql_fetch_assoc($rsVerses);
@@ -168,7 +196,7 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 		</div>
 	</div>
 	
-	<?php if ($totalRows_rsVerses > 0) { // Show if recordset not empty ?>
+	
 	  <h3 class="page-header">Verses</h3>
 	  <form method="get">
 	    <strong>Keyword:</strong> 
@@ -179,8 +207,10 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 	    <label>
 	    <input name="submit" type="submit" id="submit" value="Search">
     </label>
-        <input name="religion_id" type="hidden" id="religion_id" value="<?php echo $row_rsReligion['religion_id']; ?>"> <span class="pull-right"><a href="copyAll.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Copy All Verses</a> | Delete All Verses</span>
+        <input name="religion_id" type="hidden" id="religion_id" value="<?php echo $row_rsReligion['religion_id']; ?>"> <span class="pull-right"><a href="copyAll.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Copy All Verses</a> | <a href="detail.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&delete_religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Delete All Verses</a></span>
       </form>
+	<?php if ($totalRows_rsVerses > 0) { // Show if recordset not empty ?>
+
     <div class="table-responsive">
 	    <table class="table table-striped">
           <tr>
@@ -202,7 +232,13 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 	          <td valign="top"><?php echo $row_rsVerses['view_description']; ?></td>
 	          <td valign="top"><?php echo $categories[$row_rsVerses['category_id']]; ?></td>
 	          <td valign="top"><a href="detail_verse.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&view_id=<?php echo $row_rsVerses['view_id']; ?>">Detail Verse</a> </td>
-	          <td valign="top">Like</td>
+	          <td valign="top">
+			  <?php if (!empty($row_rsVerses['like_id'])) { ?>
+			  Liked (<a href="unlike_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Unlike</a>)
+			  <?php } else { ?>
+			  <a href="like_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Like</a>
+			  <?php } ?>
+			  </td>
 	          <td valign="top"><a href="copy.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Copy</a></td>
 	          <td valign="top"><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Delete</a></td>
             </tr>
