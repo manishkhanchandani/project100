@@ -6,7 +6,7 @@ include('siteInformation.php');
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>My Religion</title>
+<title>My Religion :: Our Team</title>
 <!-- InstanceEndEditable -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -72,93 +72,9 @@ include('siteInformation.php');
       </div>
     </nav>
 <!-- InstanceBeginEditable name="EditRegion3" -->
-<section class="jumbotron">
+<section class="section-title">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-7">
-				<h1><?php echo $row_rsSiteInformation['site_title']; ?></h1>
-				<p class="lead"><?php echo $row_rsSiteInformation['site_subtitle']; ?>
-					<a href="home.php" class="btn btn-primary btn-lg">Browse Religions</a>
-				</p>
-			</div>
-			<div class="col-md-5">
-			</div>
-		</div>
-	</div>
-</section>
-<section class="section-gray">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-3 text-center">
-				<span class="fa-stack fa-lg fa-4x">
-				  <i class="fa fa-circle fa-stack-2x fa-color"></i>
-				  <i class="fa <?php echo $row_rsSiteInformation['site_icon1']; ?> fa-stack-1x fa-inverse"></i>
-				</span>
-				<h3><?php echo $row_rsSiteInformation['site_icon1_title']; ?></h3>
-				<p><?php echo $row_rsSiteInformation['site_icon1_desc']; ?></p>
-			</div>
-			<div class="col-md-3 text-center">
-				<span class="fa-stack fa-lg fa-4x">
-				  <i class="fa fa-circle fa-stack-2x fa-color"></i>
-				  <i class="fa <?php echo $row_rsSiteInformation['site_icon2']; ?> fa-stack-1x fa-inverse"></i>
-				</span>
-				<h3><?php echo $row_rsSiteInformation['site_icon2_title']; ?></h3>
-				<p><?php echo $row_rsSiteInformation['site_icon2_desc']; ?></p>
-			</div>
-			<div class="col-md-3 text-center">
-				<span class="fa-stack fa-lg fa-4x">
-				  <i class="fa fa-circle fa-stack-2x fa-color"></i>
-				  <i class="fa <?php echo $row_rsSiteInformation['site_icon3']; ?> fa-stack-1x fa-inverse"></i>
-				</span>
-				<h3><?php echo $row_rsSiteInformation['site_icon3_title']; ?></h3>
-				<p><?php echo $row_rsSiteInformation['site_icon3_desc']; ?></p>
-			</div>
-			<div class="col-md-3 text-center">
-				<span class="fa-stack fa-lg fa-4x">
-				  <i class="fa fa-circle fa-stack-2x fa-color"></i>
-				  <i class="fa <?php echo $row_rsSiteInformation['site_icon4']; ?> fa-stack-1x fa-inverse"></i>
-				</span>
-				<h3><?php echo $row_rsSiteInformation['site_icon4_title']; ?></h3>
-				<p><?php echo $row_rsSiteInformation['site_icon4_desc']; ?></p>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section class="section-secondary slogan text-center">
-	<h1><?php echo $row_rsSiteInformation['site_sec_title']; ?></h1>
-	<p><?php echo $row_rsSiteInformation['site_sec_desc']; ?></p>
-	<a href="<?php echo $row_rsSiteInformation['site_sec_link']; ?>" class="btn btn-lg btn-default">More Info</a>
-</section>
-
-<section>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<h2 class="page-header"><?php echo $row_rsSiteInformation['site_default_title']; ?></h2>
-				<?php echo $row_rsSiteInformation['site_default_desc']; ?>
-			</div>
-			<div class="col-md-6">
-				<img src="<?php echo $row_rsSiteInformation['site_default_image']; ?>" class="img-responsive" />
-			</div>
-		</div>
-	</div>
-</section>
-
-
-<section class="section-primary">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<img src="<?php echo $row_rsSiteInformation['site_primary_image']; ?>" class="img-responsive img-circle" />
-			</div>
-			<div class="col-md-6">
-				<h2 class="page-header"><?php echo $row_rsSiteInformation['site_primary_title']; ?></h2>
-				<?php echo $row_rsSiteInformation['site_primary_desc']; ?>
-				
-				
-			</div>
-		</div>
+		<h1>Contact <small>Get In Touch</small></h1>
 	</div>
 </section>
 
