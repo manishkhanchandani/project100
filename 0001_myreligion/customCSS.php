@@ -79,6 +79,14 @@
 		color: #fff;
 	}
 	
+	.section-breadcrumb {
+		padding-bottom: 0px;
+	}
+	
+	.section-main {
+		padding-top: 0px;
+	}
+	
 	.section-title small {
 		color: #ccc;
 	}

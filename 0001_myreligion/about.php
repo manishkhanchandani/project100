@@ -78,6 +78,32 @@ include('siteInformation.php');
 	</div>
 </section>
 
+<section class="section-breadcrumb">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<ol class="breadcrumb">
+					<li><a href="index.php">Home</a></li>
+					<li class="active">About</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section-main">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<img src="<?php echo $row_rsSiteInformation['site_about_image']; ?>" class="img-responsive" />
+			</div>
+			<div class="col-md-7">
+				<h2>Welcome to Our Company</h2>
+				<p><?php echo $row_rsSiteInformation['site_about_desc']; ?></p>
+			</div>
+		</div>
+	</div>
+</section>
+
 <!-- InstanceEndEditable -->
 
 </body>

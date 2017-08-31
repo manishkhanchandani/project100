@@ -25,9 +25,32 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
+
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
+	$developers = array();
+	if (!empty($_POST['developer_name'])) {
+		foreach ($_POST['developer_name'] as $k => $v) {
+			if (empty($v)) {
+				continue;
+			}
+			$developers[$k]['name'] = $v;
+			$developers[$k]['image'] = $_POST['developers_image'][$k];
+			$developers[$k]['designation'] = $_POST['developer_designation'][$k];
+			$developers[$k]['fb'] = $_POST['developer_fb'][$k];
+			$developers[$k]['tw'] = $_POST['developer_tw'][$k];
+			$developers[$k]['ln'] = $_POST['developer_ln'][$k];
+			$developers[$k]['gp'] = $_POST['developer_gp'][$k];
+			$developers[$k]['description'] = $_POST['developer_description'][$k];
+		}
+	}
+	
+	$jsonDeveloper = json_encode($developers);
+	$_POST['site_our_team'] = $jsonDeveloper;
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
@@ -82,6 +105,15 @@ $query_rsEdit = "SELECT * FROM sites WHERE site_id = 1";
 $rsEdit = mysql_query($query_rsEdit, $conn) or die(mysql_error());
 $row_rsEdit = mysql_fetch_assoc($rsEdit);
 $totalRows_rsEdit = mysql_num_rows($rsEdit);
+
+mysql_select_db($database_conn, $conn);
+$query_rsSiteInformation = "SELECT * FROM sites WHERE site_id = 1";
+$rsSiteInformation = mysql_query($query_rsSiteInformation, $conn) or die(mysql_error());
+$row_rsSiteInformation = mysql_fetch_assoc($rsSiteInformation);
+$totalRows_rsSiteInformation = mysql_num_rows($rsSiteInformation);
+
+
+$team = json_decode($row_rsSiteInformation['site_our_team'], true);
 ?><!doctype html>
 <html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -98,7 +130,12 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- InstanceBeginEditable name="head" -->
-
+<style type="text/css">
+	.name {
+		color: red;
+		font-weight:bold;
+	}
+</style>
 <!-- InstanceEndEditable -->
 </head>
 
@@ -172,8 +209,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_subtitle:</td>
-      <td><textarea name="site_subtitle" cols="50" rows="5"><?php echo $row_rsEdit['site_subtitle']; ?></textarea>
-      </td>
+      <td><textarea name="site_subtitle" cols="50" rows="5"><?php echo $row_rsEdit['site_subtitle']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_background_img:</td>
@@ -193,8 +229,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_icon1_desc:</td>
-      <td><textarea name="site_icon1_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon1_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_icon1_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon1_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_icon2:</td>
@@ -206,8 +241,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_icon2_desc:</td>
-      <td><textarea name="site_icon2_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon2_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_icon2_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon2_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_icon3:</td>
@@ -219,8 +253,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_icon3_desc:</td>
-      <td><textarea name="site_icon3_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon3_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_icon3_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon3_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_icon4:</td>
@@ -232,8 +265,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_icon4_desc:</td>
-      <td><textarea name="site_icon4_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon4_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_icon4_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_icon4_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_findoutmorelink:</td>
@@ -245,8 +277,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_sec_desc:</td>
-      <td><textarea name="site_sec_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_sec_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_sec_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_sec_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_sec_link:</td>
@@ -258,8 +289,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_default_desc:</td>
-      <td><textarea name="site_default_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_default_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_default_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_default_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_default_image:</td>
@@ -271,8 +301,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_primary_desc:</td>
-      <td><textarea name="site_primary_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_primary_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_primary_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_primary_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_primary_image:</td>
@@ -280,8 +309,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top">Site_about_desc:</td>
-      <td><textarea name="site_about_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_about_desc']; ?></textarea>
-      </td>
+      <td><textarea name="site_about_desc" cols="50" rows="5"><?php echo $row_rsEdit['site_about_desc']; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">Site_about_image:</td>
@@ -316,12 +344,128 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
       <td><input type="text" name="site_lng" value="<?php echo $row_rsEdit['site_lng']; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
+      <td nowrap align="right">Developers:</td>
+      <td>
+	  <?php if (!empty($team)) { ?>
+	  	<?php foreach ($team as $k => $v) { ?>
+		<fieldset id="developer_<?php echo $k; ?>"><legend class="name"><?php echo $v['name']; ?></legend>
+		<p><strong>Developers Information</strong></p>
+        <p>Image:
+          <input name="developers_image[]" type="text" id="developers_image[]" value="<?php echo $v['image']; ?>">
+          Name:
+          <input name="developer_name[]" type="text" id="developer_name[]" value="<?php echo $v['name']; ?>">
+          Designation
+          <input name="developer_designation[]" type="text" id="developer_designation[]" value="<?php echo $v['designation']; ?>">
+              <br>
+          Fb URL:
+          <input name="developer_fb[]" type="text" id="developer_fb[]" value="<?php echo $v['fb']; ?>">
+          Twitter URL:
+          <input name="developer_tw[]" type="text" id="developer_tw[]" value="<?php echo $v['tw']; ?>">
+          LinkedIn:
+          <label>
+            <input name="developer_ln[]" type="text" id="developer_ln[] value="<?php echo $v['ln']; ?>"">
+              </label>
+              <br>
+          Google Plus:
+          <label>
+            <input name="developer_gp[]" type="text" id="developer_gp[]" value="<?php echo $v['gp']; ?>">
+              </label>
+          </p>
+        <p>Description <br>
+            <label>
+              <textarea name="developer_description[]" cols="55" rows="4" id="developer_description[]"><?php echo $v['description']; ?></textarea>
+            </label>
+        </p> 
+		</fieldset>
+		<?php } ?>
+		<hr />
+	  <?php } ?>
+	  <div id="dev1">
+	  	<p><strong>New Developer's Information</strong></p>
+        <p>Image:
+          <input name="developers_image[]" type="text" id="developers_image[]">
+          Name:
+          <input name="developer_name[]" type="text" id="developer_name[]">
+          Designation
+          <input name="developer_designation[]" type="text" id="developer_designation[]">
+              <br>
+          Fb URL:
+          <input name="developer_fb[]" type="text" id="developer_fb[]">
+          Twitter URL:
+          <input name="developer_tw[]" type="text" id="developer_tw[]">
+          LinkedIn:
+          <label>
+            <input name="developer_ln[]" type="text" id="developer_ln[]">
+                </label>
+              <br>
+          Google Plus:
+          <label>
+            <input name="developer_gp[]" type="text" id="developer_gp[]">
+                </label>
+          </p>
+        <p>Description <br>
+            <label>
+              <textarea name="developer_description[]" cols="55" rows="4" id="developer_description[]"></textarea>
+            </label>
+        </p> 
+	  
+	  </div>       </td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">&nbsp;</td>
+      <td><input type="button" name="Submit" value="Add More Developers"  onClick="addMoreDevelopers();">
+	  	<div id="dev2" style="display:none;">
+		<p><strong>Developers Information</strong></p>
+        <p>Image:
+          <input name="developers_image[]" type="text" id="developers_image[]">
+          Name:
+          <input name="developer_name[]" type="text" id="developer_name[]">
+          Designation
+          <input name="developer_designation[]" type="text" id="developer_designation[]">
+              <br>
+          Fb URL:
+          <input name="developer_fb[]" type="text" id="developer_fb[]">
+          Twitter URL:
+          <input name="developer_tw[]" type="text" id="developer_tw[]">
+          LinkedIn:
+          <label>
+            <input name="developer_ln[]" type="text" id="developer_ln[]">
+                </label>
+              <br>
+          Google Plus:
+          <label>
+            <input name="developer_gp[]" type="text" id="developer_gp[]">
+                </label>
+          </p>
+        <p>Description <br>
+            <label>
+              <textarea name="developer_description[]" cols="55" rows="4" id="developer_description[]"></textarea>
+            </label>
+        </p> 
+		</div>
+		
+		<script>
+			function addMoreDevelopers() {
+				$('#dev1').append($('#dev2').html());
+			}
+		</script>
+	  </td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
       <td><input type="submit" value="Update record"></td>
     </tr>
   </table>
   </div>
-  <input type="hidden" name="site_our_team" value="<?php echo $row_rsEdit['site_our_team']; ?>">
+  <input type="hidden" name="site_our_team" value="<?php echo htmlspecialchars($row_rsEdit['site_our_team']); ?>">
   <input type="hidden" name="site_links" value="<?php echo $row_rsEdit['site_links']; ?>">
   <input type="hidden" name="MM_update" value="form1">
   <input type="hidden" name="site_id" value="<?php echo $row_rsEdit['site_id']; ?>">
@@ -333,4 +477,6 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
 <!-- InstanceEnd --></html>
 <?php
 mysql_free_result($rsEdit);
+
+mysql_free_result($rsSiteInformation);
 ?>

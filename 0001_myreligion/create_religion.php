@@ -97,6 +97,31 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+	//validation will go here
+	$errorMessage = '';
+	if (empty($_POST['religion_name'])) {
+		$errorMessage .= 'Religion Name is missing. ';
+		if (isset($_POST["MM_insert"])) {
+			unset($_POST["MM_insert"]);
+		}
+	}
+	
+	if (empty($_POST['religion_description'])) {
+		$errorMessage .= 'Religion Description is missing. ';
+		if (isset($_POST["MM_insert"])) {
+			unset($_POST["MM_insert"]);
+		}
+	}
+	
+	if (empty($_POST['religion_type'])) {
+		$errorMessage .= 'Religion Type is missing. ';
+		if (isset($_POST["MM_insert"])) {
+			unset($_POST["MM_insert"]);
+		}
+	}
+}
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   $insertSQL = sprintf("INSERT INTO religions (user_id, religion_name, religion_description, religion_type, religion_image) VALUES (%s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['user_id'], "int"),
                        GetSQLValueString($_POST['religion_name'], "text"),
@@ -114,47 +139,151 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   }
   header(sprintf("Location: %s", $insertGoTo));
 }
+
+$religion_name = isset($_POST['religion_name']) ? $_POST['religion_name'] : '';
+$religion_description = isset($_POST['religion_description']) ? $_POST['religion_description'] : '';
+$religion_type = isset($_POST['religion_type']) ? $_POST['religion_type'] : '';
+$religion_image = isset($_POST['religion_image']) ? $_POST['religion_image'] : '';
 ?><!doctype html>
-<html>
+<html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta charset="utf-8">
+<!-- InstanceBeginEditable name="doctitle" -->
 <title>Create New Religion</title>
+<!-- InstanceEndEditable -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- InstanceBeginEditable name="head" -->
+<meta charset="utf-8">
+<script type="text/JavaScript">
+<!--
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_validateForm() { //v4.0
+  var i,p,q,nm,test,num,min,max,errors='',args=MM_validateForm.arguments;
+  for (i=0; i<(args.length-2); i+=3) { test=args[i+2]; val=MM_findObj(args[i]);
+    if (val) { nm=val.name; if ((val=val.value)!="") {
+      if (test.indexOf('isEmail')!=-1) { p=val.indexOf('@');
+        if (p<1 || p==(val.length-1)) errors+='- '+nm+' must contain an e-mail address.\n';
+      } else if (test!='R') { num = parseFloat(val);
+        if (isNaN(val)) errors+='- '+nm+' must contain a number.\n';
+        if (test.indexOf('inRange') != -1) { p=test.indexOf(':');
+          min=test.substring(8,p); max=test.substring(p+1);
+          if (num<min || max<num) errors+='- '+nm+' must contain a number between '+min+' and '+max+'.\n';
+    } } } else if (test.charAt(0) == 'R') errors += '- '+nm+' is required.\n'; }
+  } if (errors) alert('The following error(s) occurred:\n'+errors);
+  document.MM_returnValue = (errors == '');
+}
+//-->
+</script>
+<!-- InstanceEndEditable -->
 </head>
 
 <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.php">My Religion</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="team.php">Our Team</a></li>
+            <li><a href="about.php">About</a></li>
+            <li><a href="contact.php">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Religions <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="create_religion.php">Create New Religion</a></li>
+                <li><a href="home.php">Browse All Religions</a></li>
+                <li><a href="my_religions.php">My Created Religions</a></li>
+              </ul>
+            </li>
+			
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Register as New User</a></li>
+                <li><a href="#">Logout</a></li>
+              </ul>
+            </li>
+			
+			
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="admin/religions.php">Religions (Approve / Block)</a></li>
+                <li><a href="admin/views.php">Verses (Approve / Block)</a></li>
+				
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+<!-- InstanceBeginEditable name="EditRegion3" -->
+<div class="container">
 <h1>Create New Religion</h1>
-<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1">
-  <table>
+<?php if (!empty($errorMessage)) { ?>
+<div class="alert alert-danger" role="alert"><?php echo $errorMessage; ?></div>
+<?php } ?>
+<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" onSubmit="MM_validateForm('religion_name','','R','religion_description','','R');return document.MM_returnValue">
+  <div class="table-responsive">
+	    <table class="table table-striped">
     <tr valign="baseline">
       <td nowrap align="right"><strong>Religion Name:</strong></td>
-      <td><input type="text" name="religion_name" value="" size="32"></td>
+      <td><input type="text" name="religion_name" value="<?php echo $religion_name; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right" valign="top"><strong>Religion Description:</strong></td>
-      <td><textarea name="religion_description" cols="50" rows="5"></textarea>      </td>
+      <td><textarea name="religion_description" cols="50" rows="5"><?php echo $religion_description; ?></textarea>      </td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right"><strong>Religion Type </strong></td>
       <td><label>
-        <input name="religion_type" type="radio" value="public">
+        <input <?php if (!(strcmp($religion_type,"public"))) {echo "checked=\"checked\"";} ?> name="religion_type" type="radio" value="public">
       Public (Anyone in world can add views)
-      <input name="religion_type" type="radio" value="closed" checked>
+      <input name="religion_type" type="radio" value="closed" <?php if (!(strcmp($religion_type,"closed"))) {echo "checked=\"checked\"";} ?>>
       Closed (Only User can add views) </label></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right"><strong>Religion Image: </strong></td>
       <td><label>
-        <input name="religion_image" type="text" id="religion_image" size="55">
+        <input name="religion_image" type="text" id="religion_image" value="<?php echo $religion_image; ?>" size="55">
       </label></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
       <td><input type="submit" value="Insert record"></td>
     </tr>
-  </table>
+</table>
+</div>
   <input type="hidden" name="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
 <p>&nbsp;</p>
+</div>
+<!-- InstanceEndEditable -->
+
 </body>
-</html>
+<!-- InstanceEnd --></html>

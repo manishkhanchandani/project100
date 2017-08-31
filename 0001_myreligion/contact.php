@@ -1,12 +1,37 @@
 <?php 
+if (!isset($_SESSION)) {
+  session_start();
+}
+
 include('siteInformation.php');
+?>
+<?php
+
+//if page will load, there is not post data, and so user will not go inside the following if condition
+//but when user clicks submit button, then the post variable will be available and we can send email at that time.
+if (!empty($_POST)) {
+	$message = "Dear Admin,
+User with name '{$_POST['name']}'	
+and email '{$_POST['email']}'
+has sent following message:
+
+{$_POST['message']}
+
+
+Thanks
+System Generated.
+";
+	mail('manishkk74@gmail.com', 'New Contact Message at LifeReminder.tk', $message, 'From:admin<admin@lifereminder.tk>');
+	
+	$status = 'Message Submitted';
+}
 ?>
 <!doctype html>
 <html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>My Religion :: Our Team</title>
+<title>My Religion :: Contact Us</title>
 <!-- InstanceEndEditable -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -75,6 +100,59 @@ include('siteInformation.php');
 <section class="section-title">
 	<div class="container">
 		<h1>Contact <small>Get In Touch</small></h1>
+	</div>
+</section>
+
+
+<section class="section-breadcrumb">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<ol class="breadcrumb">
+					<li><a href="index.php">Home</a></li>
+					<li class="active">Contact Us</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section-main">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<?php if (!empty($status)) { ?>
+				<div class="alert alert-success" role="alert"><?php echo $status; ?></div>
+				<?php } ?>
+				<iframe
+				  height="450"
+				  frameborder="0" style="border:0; min-width: 100%"
+				  src="http://maps.google.com/maps?hl=en&amp;ie=UTF8&amp;ll=37.0625,-95.677068&amp;spn=56.506174,79.013672&amp;t=m&amp;z=4&amp;output=embed" allowfullscreen>
+				</iframe>
+				<h3>Contact Us Today!</h3>
+				<form method="post">
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input name="name" type="text" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Email address</label>
+                    <input name="email" type="email" class="form-control">
+                  </div>
+                    <div class="form-group">
+                    <label>Message</label>
+                   <textarea name="message" class="form-control"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+			</div>
+			<div class="col-md-4">
+				<h3>Contact Details</h3>
+				<p><?php echo $row_rsSiteInformation['site_address']; ?></p>
+				<p><i class="fa fa-phone"></i> : <?php echo $row_rsSiteInformation['site_phone']; ?></p>
+				<p><i class="fa fa-envelope"></i> : <a href="mailto: <?php echo $row_rsSiteInformation['site_email']; ?>">Email Us</a></p>
+				<p><i class="fa fa-clock-o"></i> : <?php echo $row_rsSiteInformation['site_timings']; ?></p>
+			</div>
+		</div>
 	</div>
 </section>
 

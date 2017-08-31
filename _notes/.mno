@@ -13,4 +13,6 @@
 	<infoitem key="MM_URL1" value="religion_id" />
 	<infoitem key="MM_URL_Count" value="1" />
 	<infoitem key="PageAccessControl" value="admin,member" />
+	<infoitem key="MM_Form1" value="religion_type" />
+	<infoitem key="MM_Form_Count" value="1" />
 </info>

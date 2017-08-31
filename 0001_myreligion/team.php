@@ -1,5 +1,7 @@
 <?php 
 include('siteInformation.php');
+
+$team = json_decode($row_rsSiteInformation['site_our_team'], true);
 ?>
 <!doctype html>
 <html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
@@ -75,6 +77,29 @@ include('siteInformation.php');
 <section class="section-title">
 	<div class="container">
 		<h1>Our Team <small>Meet Our Developers</small></h1>
+	</div>
+	
+	
+	
+</section>
+<section>
+	<div class="container">
+		
+		<div class="row">
+			<?php foreach($team as $k => $developer) { ?>
+			<div class="col-md-4">
+				<img class="img-responsive img-thumbnail img-circle" src="<?php echo $developer['image']; ?>" />
+				<h3><?php echo $developer['name']; ?> <small><?php echo $developer['designation']; ?></small></h3>
+				<p><?php echo $developer['description']; ?></p>
+				<ul class="list-unstyled list-inline list-social-icons">
+					<li class="tooltip-social facebook-link"><a href="<?php echo $developer['fb']; ?>" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+					<li class="tooltip-social facebook-link"><a href="<?php echo $developer['ln']; ?>" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="fa fa-linkedin-square fa-2x"></i></a></li>
+					<li class="tooltip-social facebook-link"><a href="<?php echo $developer['tw']; ?>" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+					<li class="tooltip-social facebook-link"><a href="<?php echo $developer['gp']; ?>" data-toggle="tooltip" data-placement="top" title="Google Plus"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
+				</ul>
+			</div>
+			<?php } ?>
+		</div>
 	</div>
 </section>
 
