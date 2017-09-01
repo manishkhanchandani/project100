@@ -1,13 +1,18 @@
+<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+?>
 <!doctype html>
 <html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Create Religion Error</title>
+<title>Login Failure</title>
 <!-- InstanceEndEditable -->
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -29,19 +34,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php">My Religion</a>
+          <a class="navbar-brand" href="../index.php">My Religion</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="team.php">Our Team</a></li>
-            <li><a href="about.php">About</a></li>
-            <li><a href="contact.php">Contact</a></li>
+            <li><a href="../team.php">Our Team</a></li>
+            <li><a href="../about.php">About</a></li>
+            <li><a href="../contact.php">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Religions <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="create_religion.php">Create New Religion</a></li>
-                <li><a href="home.php">Browse All Religions</a></li>
-                <li><a href="my_religions.php">My Created Religions</a></li>
+                <li><a href="../create_religion.php">Create New Religion</a></li>
+                <li><a href="../home.php">Browse All Religions</a></li>
+                <li><a href="../my_religions.php">My Created Religions</a></li>
               </ul>
             </li>
 			
@@ -49,11 +54,11 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu">
 			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="users/login.php">Login</a></li>
-                <li><a href="users/register.php">Register as New User</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="register.php">Register as New User</a></li>
 				<?php } ?>
 				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="users/logout.php">Logout</a></li>
+                <li><a href="logout.php">Logout</a></li>
 				<?php } ?>
               </ul>
             </li>
@@ -62,8 +67,8 @@
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="admin/religions.php">Religions (Approve / Block)</a></li>
-                <li><a href="admin/views.php">Verses (Approve / Block)</a></li>
+                <li><a href="../admin/religions.php">Religions (Approve / Block)</a></li>
+                <li><a href="../admin/views.php">Verses (Approve / Block)</a></li>
 				
               </ul>
             </li>
@@ -73,8 +78,8 @@
     </nav>
 <!-- InstanceBeginEditable name="EditRegion3" -->
 <div class="container">
-<p>Error</p>
-<p>This religion is already in our database. Please go back and change the religion name.  </p>
+<p>Login Failed </p>
+<p>Email and password does not match, please go back and change it. </p>
 </div>
 <!-- InstanceEndEditable -->
 

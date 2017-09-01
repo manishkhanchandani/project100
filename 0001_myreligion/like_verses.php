@@ -118,21 +118,6 @@ if (!empty($_GET["religion_id"])) {
 
 header("Location: detail.php?religion_id=".$_GET["religion_id"]);
 exit;
-?>
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>display</title>
-
-</head>
-
-<body>
-<h1>Confirmation</h1>
-<p>You have successfully liked the verse &quot;<?php echo $row_rsVerse['view_description']; ?>&quot; </p>
-</body>
-</html>
-<?php
 mysql_free_result($rsReligion);
 
 mysql_free_result($rsVerse);

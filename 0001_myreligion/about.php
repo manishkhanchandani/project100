@@ -1,3 +1,8 @@
+<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+?>
 <?php 
 include('siteInformation.php');
 ?>
@@ -52,9 +57,13 @@ include('siteInformation.php');
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Register as New User</a></li>
-                <li><a href="#">Logout</a></li>
+			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
+                <li><a href="users/login.php">Login</a></li>
+                <li><a href="users/register.php">Register as New User</a></li>
+				<?php } ?>
+				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
+                <li><a href="users/logout.php">Logout</a></li>
+				<?php } ?>
               </ul>
             </li>
 			

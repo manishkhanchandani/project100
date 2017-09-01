@@ -32,7 +32,7 @@ function isAuthorized($strUsers, $strGroups, $UserName, $UserGroup) {
   return $isValid; 
 }
 
-$MM_restrictGoTo = "../../users/restrict.php";
+$MM_restrictGoTo = "../users/restrict.php";
 if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("",$MM_authorizedUsers, $_SESSION['MM_Username'], $_SESSION['MM_UserGroup'])))) {   
   $MM_qsChar = "?";
   $MM_referrer = $_SERVER['PHP_SELF'];
@@ -122,7 +122,7 @@ $queryString_rsViews = sprintf("&totalRows_rsViews=%d%s", $totalRows_rsViews, $q
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Untitled Document</title>
+<title>Verses</title>
 <!-- InstanceEndEditable -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -167,9 +167,13 @@ $queryString_rsViews = sprintf("&totalRows_rsViews=%d%s", $totalRows_rsViews, $q
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Register as New User</a></li>
-                <li><a href="#">Logout</a></li>
+			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
+                <li><a href="../users/login.php">Login</a></li>
+                <li><a href="../users/register.php">Register as New User</a></li>
+				<?php } ?>
+				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
+                <li><a href="../users/logout.php">Logout</a></li>
+				<?php } ?>
               </ul>
             </li>
 			

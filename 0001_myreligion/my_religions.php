@@ -86,17 +86,86 @@ if (!empty($_SERVER['QUERY_STRING'])) {
   }
 }
 $queryString_rsMyReligions = sprintf("&totalRows_rsMyReligions=%d%s", $totalRows_rsMyReligions, $queryString_rsMyReligions);
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+?><!doctype html>
+<html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
+<meta charset="utf-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>My Religions</title>
+<!-- InstanceEndEditable -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
 </head>
 
 <body>
-  <h1>My Religions</h1>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.php">My Religion</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="team.php">Our Team</a></li>
+            <li><a href="about.php">About</a></li>
+            <li><a href="contact.php">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Religions <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="create_religion.php">Create New Religion</a></li>
+                <li><a href="home.php">Browse All Religions</a></li>
+                <li><a href="my_religions.php">My Created Religions</a></li>
+              </ul>
+            </li>
+			
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
+                <li><a href="users/login.php">Login</a></li>
+                <li><a href="users/register.php">Register as New User</a></li>
+				<?php } ?>
+				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
+                <li><a href="users/logout.php">Logout</a></li>
+				<?php } ?>
+              </ul>
+            </li>
+			
+			
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="admin/religions.php">Religions (Approve / Block)</a></li>
+                <li><a href="admin/views.php">Verses (Approve / Block)</a></li>
+				
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+<!-- InstanceBeginEditable name="EditRegion3" -->
+ <div class="container">
+ <h1>My Religions</h1>
   <?php if ($totalRows_rsMyReligions > 0) { // Show if recordset not empty ?>
-  <table border="1">
+  <div class="table-responsive">
+	    <table class="table table-striped">
+
     <tr>
       <td>religion_id</td>
       <td>user_id</td>
@@ -132,12 +201,20 @@ $queryString_rsMyReligions = sprintf("&totalRows_rsMyReligions=%d%s", $totalRows
           <a href="<?php printf("%s?pageNum_rsMyReligions=%d%s", $currentPage, $totalPages_rsMyReligions, $queryString_rsMyReligions); ?>">Last</a>
           <?php } // Show if not last page ?>      </td>
     </tr>
-  </table>
+</table>
+</div>
   <?php } // Show if recordset not empty ?>
   <?php if ($totalRows_rsMyReligions == 0) { // Show if recordset empty ?>
   <p>No Religion Found. </p>
-    <?php } // Show if recordset empty ?></body>
-</html>
+    <?php } // Show if recordset empty ?>
+	
+	
+</div>
+	
+	<!-- InstanceEndEditable -->
+
+</body>
+<!-- InstanceEnd --></html>
 <?php
 mysql_free_result($rsMyReligions);
 ?>

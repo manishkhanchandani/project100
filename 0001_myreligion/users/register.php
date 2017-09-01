@@ -1,56 +1,16 @@
-<?php require_once('../Connections/conn.php'); ?>
+<?php require_once('../../Connections/conn.php'); ?>
 <?php
 if (!isset($_SESSION)) {
   session_start();
-}
-$MM_authorizedUsers = "";
-$MM_donotCheckaccess = "true";
-
-// *** Restrict Access To Page: Grant or deny access to this page
-function isAuthorized($strUsers, $strGroups, $UserName, $UserGroup) { 
-  // For security, start by assuming the visitor is NOT authorized. 
-  $isValid = False; 
-
-  // When a visitor has logged into this site, the Session variable MM_Username set equal to their username. 
-  // Therefore, we know that a user is NOT logged in if that Session variable is blank. 
-  if (!empty($UserName)) { 
-    // Besides being logged in, you may restrict access to only certain users based on an ID established when they login. 
-    // Parse the strings into arrays. 
-    $arrUsers = Explode(",", $strUsers); 
-    $arrGroups = Explode(",", $strGroups); 
-    if (in_array($UserName, $arrUsers)) { 
-      $isValid = true; 
-    } 
-    // Or, you may restrict access to only certain users based on their username. 
-    if (in_array($UserGroup, $arrGroups)) { 
-      $isValid = true; 
-    } 
-    if (($strUsers == "") && true) { 
-      $isValid = true; 
-    } 
-  } 
-  return $isValid; 
-}
-
-$MM_restrictGoTo = "../users/login.php";
-if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("",$MM_authorizedUsers, $_SESSION['MM_Username'], $_SESSION['MM_UserGroup'])))) {   
-  $MM_qsChar = "?";
-  $MM_referrer = $_SERVER['PHP_SELF'];
-  if (strpos($MM_restrictGoTo, "?")) $MM_qsChar = "&";
-  if (isset($QUERY_STRING) && strlen($QUERY_STRING) > 0) 
-  $MM_referrer .= "?" . $QUERY_STRING;
-  $MM_restrictGoTo = $MM_restrictGoTo. $MM_qsChar . "accesscheck=" . urlencode($MM_referrer);
-  header("Location: ". $MM_restrictGoTo); 
-  exit;
 }
 ?>
 <?php
 // *** Redirect if username exists
 $MM_flag="MM_insert";
 if (isset($_POST[$MM_flag])) {
-  $MM_dupKeyRedirect="create_religion_error.php";
-  $loginUsername = $_POST['religion_name'];
-  $LoginRS__query = "SELECT religion_name FROM religions WHERE religion_name=" . GetSQLValueString($loginUsername, 'text');
+  $MM_dupKeyRedirect="register_failure.php";
+  $loginUsername = $_POST['email'];
+  $LoginRS__query = "SELECT email FROM users_auth WHERE email='" . $loginUsername . "'";
   mysql_select_db($database_conn, $conn);
   $LoginRS=mysql_query($LoginRS__query, $conn) or die(mysql_error());
   $loginFoundUser = mysql_num_rows($LoginRS);
@@ -97,24 +57,35 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-	//validation will go here
+	//all validations will come here
+	
 	$errorMessage = '';
-	if (empty($_POST['religion_name'])) {
-		$errorMessage .= 'Religion Name is missing. ';
+	if (empty($_POST['email'])) {
+		$errorMessage .= 'Email field is empty. ';
 		if (isset($_POST["MM_insert"])) {
 			unset($_POST["MM_insert"]);
 		}
 	}
-	
-	if (empty($_POST['religion_description'])) {
-		$errorMessage .= 'Religion Description is missing. ';
+	if (empty($_POST['password'])) {
+		$errorMessage .= 'Password field is empty. ';
 		if (isset($_POST["MM_insert"])) {
 			unset($_POST["MM_insert"]);
 		}
 	}
-	
-	if (empty($_POST['religion_type'])) {
-		$errorMessage .= 'Religion Type is missing. ';
+	if (empty($_POST['display_name'])) {
+		$errorMessage .= 'Display Name field is empty. ';
+		if (isset($_POST["MM_insert"])) {
+			unset($_POST["MM_insert"]);
+		}
+	}
+	if (empty($_POST['cpassword'])) {
+		$errorMessage .= 'Confirm Password field is empty. ';
+		if (isset($_POST["MM_insert"])) {
+			unset($_POST["MM_insert"]);
+		}
+	}
+	if ($_POST['password'] != $_POST['cpassword']) {
+		$errorMessage .= 'Password and confirm password does not matches. ';
 		if (isset($_POST["MM_insert"])) {
 			unset($_POST["MM_insert"]);
 		}
@@ -122,17 +93,17 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO religions (user_id, religion_name, religion_description, religion_type, religion_image) VALUES (%s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['user_id'], "int"),
-                       GetSQLValueString($_POST['religion_name'], "text"),
-                       GetSQLValueString($_POST['religion_description'], "text"),
-                       GetSQLValueString($_POST['religion_type'], "text"),
-                       GetSQLValueString($_POST['religion_image'], "text"));
+  $insertSQL = sprintf("INSERT INTO users_auth (email, password, display_name, profile_img, provider_id) VALUES (%s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['email'], "text"),
+                       GetSQLValueString($_POST['password'], "text"),
+                       GetSQLValueString($_POST['display_name'], "text"),
+                       GetSQLValueString($_POST['profile_img'], "text"),
+                       GetSQLValueString($_POST['provider_id'], "text"));
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
 
-  $insertGoTo = "create_religion_confirm.php";
+  $insertGoTo = "reigster_success.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
     $insertGoTo .= $_SERVER['QUERY_STRING'];
@@ -140,20 +111,21 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   header(sprintf("Location: %s", $insertGoTo));
 }
 
-$religion_name = isset($_POST['religion_name']) ? $_POST['religion_name'] : '';
-$religion_description = isset($_POST['religion_description']) ? $_POST['religion_description'] : '';
-$religion_type = isset($_POST['religion_type']) ? $_POST['religion_type'] : '';
-$religion_image = isset($_POST['religion_image']) ? $_POST['religion_image'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$password = isset($_POST['password']) ? $_POST['password'] : '';
+$display_name = isset($_POST['display_name']) ? $_POST['display_name'] : '';
+$profile_img = isset($_POST['profile_img']) ? $_POST['profile_img'] : '';
+$cpassword = isset($_POST['cpassword']) ? $_POST['cpassword'] : '';
 ?><!doctype html>
 <html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Create New Religion</title>
+<title>Register New User</title>
 <!-- InstanceEndEditable -->
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -161,6 +133,8 @@ $religion_image = isset($_POST['religion_image']) ? $_POST['religion_image'] : '
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- InstanceBeginEditable name="head" -->
 <meta charset="utf-8">
+
+
 <script type="text/JavaScript">
 <!--
 function MM_findObj(n, d) { //v4.01
@@ -203,19 +177,19 @@ function MM_validateForm() { //v4.0
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php">My Religion</a>
+          <a class="navbar-brand" href="../index.php">My Religion</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="team.php">Our Team</a></li>
-            <li><a href="about.php">About</a></li>
-            <li><a href="contact.php">Contact</a></li>
+            <li><a href="../team.php">Our Team</a></li>
+            <li><a href="../about.php">About</a></li>
+            <li><a href="../contact.php">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Religions <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="create_religion.php">Create New Religion</a></li>
-                <li><a href="home.php">Browse All Religions</a></li>
-                <li><a href="my_religions.php">My Created Religions</a></li>
+                <li><a href="../create_religion.php">Create New Religion</a></li>
+                <li><a href="../home.php">Browse All Religions</a></li>
+                <li><a href="../my_religions.php">My Created Religions</a></li>
               </ul>
             </li>
 			
@@ -223,11 +197,11 @@ function MM_validateForm() { //v4.0
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu">
 			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="users/login.php">Login</a></li>
-                <li><a href="users/register.php">Register as New User</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="register.php">Register as New User</a></li>
 				<?php } ?>
 				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="users/logout.php">Logout</a></li>
+                <li><a href="logout.php">Logout</a></li>
 				<?php } ?>
               </ul>
             </li>
@@ -236,8 +210,8 @@ function MM_validateForm() { //v4.0
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="admin/religions.php">Religions (Approve / Block)</a></li>
-                <li><a href="admin/views.php">Verses (Approve / Block)</a></li>
+                <li><a href="../admin/religions.php">Religions (Approve / Block)</a></li>
+                <li><a href="../admin/views.php">Verses (Approve / Block)</a></li>
 				
               </ul>
             </li>
@@ -247,34 +221,33 @@ function MM_validateForm() { //v4.0
     </nav>
 <!-- InstanceBeginEditable name="EditRegion3" -->
 <div class="container">
-<h1>Create New Religion</h1>
+  <h1>Register New User </h1>
 <?php if (!empty($errorMessage)) { ?>
 <div class="alert alert-danger" role="alert"><?php echo $errorMessage; ?></div>
 <?php } ?>
-<form action="<?php echo $editFormAction; ?>" method="post" enctype="multipart/form-data" name="form1" onSubmit="MM_validateForm('religion_name','','R','religion_description','','R');return document.MM_returnValue">
-  <div class="table-responsive">
+  <form action="<?php echo $editFormAction; ?>" method="post" name="form1" onSubmit="MM_validateForm('email','','RisEmail','display_name','','R','password','','R','cpassword','','R');return document.MM_returnValue">
+<div class="table-responsive">
 	    <table class="table table-striped">
+
     <tr valign="baseline">
-      <td nowrap align="right"><strong>Religion Name:</strong></td>
-      <td><input type="text" name="religion_name" value="<?php echo $religion_name; ?>" size="32"></td>
+      <td nowrap align="right">Email:</td>
+      <td><input type="text" name="email" value="<?php echo $email; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right" valign="top"><strong>Religion Description:</strong></td>
-      <td><textarea name="religion_description" cols="50" rows="5"><?php echo $religion_description; ?></textarea>      </td>
+      <td nowrap align="right">Password:</td>
+      <td><input type="password" name="password" value="<?php echo $password; ?>" size="32"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right"><strong>Religion Type </strong></td>
-      <td><label>
-        <input <?php if (!(strcmp($religion_type,"public"))) {echo "checked=\"checked\"";} ?> name="religion_type" type="radio" value="public">
-      Public (Anyone in world can add views)
-      <input name="religion_type" type="radio" value="closed" <?php if (!(strcmp($religion_type,"closed"))) {echo "checked=\"checked\"";} ?>>
-      Closed (Only User can add views) </label></td>
+      <td nowrap align="right">Confirm Password:        </td>
+      <td><input name="cpassword" type="password" id="cpassword" size="32" value="<?php echo $cpassword; ?>"></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap align="right"><strong>Religion Image: </strong></td>
-      <td><label>
-        <input name="religion_image" type="text" id="religion_image" value="<?php echo $religion_image; ?>" size="55">
-      </label></td>
+      <td nowrap align="right">Display Name:</td>
+      <td><input type="text" name="display_name" size="32" value="<?php echo $display_name; ?>"></td>
+    </tr>
+    <tr valign="baseline">
+      <td nowrap align="right">Profile Image:</td>
+      <td><input type="text" name="profile_img" size="32" value="<?php echo $profile_img; ?>"></td>
     </tr>
     <tr valign="baseline">
       <td nowrap align="right">&nbsp;</td>
@@ -282,7 +255,7 @@ function MM_validateForm() { //v4.0
     </tr>
 </table>
 </div>
-  <input type="hidden" name="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>">
+  <input type="hidden" name="provider_id" value="email2">
   <input type="hidden" name="MM_insert" value="form1">
 </form>
 <p>&nbsp;</p>
