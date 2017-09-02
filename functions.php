@@ -1,10 +1,114 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
-</head>
+<?php
+define('COOKIE_FILE_PATH', '');
 
-<body>
-</body>
-</html>
+if (!function_exists('curlget')) {
+	function curlget($url) {
+		$https = 0;
+		if (substr($url, 0, 5) === 'https') {
+			$https = 1;
+		}
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);  
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_COOKIEFILE, COOKIE_FILE_PATH);
+		curl_setopt($ch, CURLOPT_COOKIEJAR,COOKIE_FILE_PATH);
+		if (!empty($https)) {
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		}
+
+		$result = curl_exec($ch); 
+		$data = array();
+		$data['output'] = $result;
+		$data['http_code'] = curl_getinfo ($ch, CURLINFO_HTTP_CODE);
+		$data['errorNo'] = curl_errno($ch);
+		$data['errorMsg'] = curl_error($ch);
+		$data['return_headers'] = curl_getinfo($ch);
+		curl_close($ch);
+		return $data;
+	}
+}
+
+
+if (!function_exists('curlpost')) {
+	function curlpost($url, $POSTFIELDS='') {
+		$https = 0;
+		if (substr($url, 0, 5) === 'https') {
+			$https = 1;
+		}
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);  
+		curl_setopt($ch, CURLOPT_POST, 1); 
+		curl_setopt($ch, CURLOPT_POSTFIELDS,$POSTFIELDS);
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_COOKIEFILE, COOKIE_FILE_PATH);
+		curl_setopt($ch, CURLOPT_COOKIEJAR,COOKIE_FILE_PATH);
+		if (!empty($https)) {
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		}
+
+		$result = curl_exec($ch); 
+		$data = array();
+		$data['output'] = $result;
+		$data['http_code'] = curl_getinfo ($ch, CURLINFO_HTTP_CODE);
+		$data['errorNo'] = curl_errno($ch);
+		$data['errorMsg'] = curl_error($ch);
+		$data['return_headers'] = curl_getinfo($ch);
+		curl_close($ch);
+		return $data;
+	}
+}
+
+
+if (!function_exists('curlpostjson')) {
+	function curlpostjson($url, $json='') {
+		$https = 0;
+		if (substr($url, 0, 5) === 'https') {
+			$https = 1;
+		}
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);  
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); 
+		curl_setopt ($ch, CURLOPT_POSTFIELDS, $json );
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+            'Content-Type: application/json',                                                                                
+            'Content-Length: ' . strlen($json))                                                                       
+        );
+		
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_COOKIEFILE, COOKIE_FILE_PATH);
+		curl_setopt($ch, CURLOPT_COOKIEJAR,COOKIE_FILE_PATH);
+		if (!empty($https)) {
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		}
+
+		$result = curl_exec($ch);
+		$data = array();
+		$data['output'] = $result;
+		$data['http_code'] = curl_getinfo ($ch, CURLINFO_HTTP_CODE);
+		$data['errorNo'] = curl_errno($ch);
+		$data['errorMsg'] = curl_error($ch);
+		$data['return_headers'] = curl_getinfo($ch);
+		curl_close($ch);
+		return $data;
+	}
+}
+
+function pr($d) {
+	echo '<pre>';
+	print_r($d);
+	echo '</pre>';
+}
+
+?>
