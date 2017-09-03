@@ -146,7 +146,7 @@ if (isset($_GET['subject'])) {
   $colname_rsIssues = (get_magic_quotes_gpc()) ? $_GET['subject'] : addslashes($_GET['subject']);
 }
 mysql_select_db($database_conn, $conn);
-$query_rsIssues = sprintf("SELECT * FROM law_issues WHERE subject = '%s' AND user_id = %s ORDER BY law_issues.issue", $colname_rsIssues,$coluser_rsIssues);
+$query_rsIssues = sprintf("SELECT * FROM law_issues WHERE subject = '%s' AND user_id = %s AND issue_deleted = 0 ORDER BY issue_id", $colname_rsIssues,$coluser_rsIssues);
 $rsIssues = mysql_query($query_rsIssues, $conn) or die(mysql_error());
 $row_rsIssues = mysql_fetch_assoc($rsIssues);
 $totalRows_rsIssues = mysql_num_rows($rsIssues);
@@ -205,9 +205,11 @@ $queryString_rsEssayIssues = sprintf("&totalRows_rsEssayIssues=%d%s", $totalRows
 <!-- InstanceEndEditable -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- InstanceBeginEditable name="head" -->
-
-
 <script type="text/JavaScript">
 <!--
 function MM_findObj(n, d) { //v4.01
@@ -262,6 +264,9 @@ function MM_validateForm() { //v4.0
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Essays <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="essays.php">Manage Essay</a></li>
+                <li><a href="issues.php?subject=contracts">Manage Issues - Contracts</a></li>
+                <li><a href="issues.php?subject=torts">Manage Issues - Torts</a></li>
+                <li><a href="issues.php?subject=criminal">Manage Issues - Criminal</a></li>
               </ul>
             </li>
 			
@@ -333,66 +338,21 @@ function MM_validateForm() { //v4.0
     </tr>
   </table>
   <?php } // Show if recordset not empty ?>
-<h1>Add New Issue</h1>
-<table border="1" cellspacing="0" cellpadding="5">
-  <tr>
-    <td valign="top"><form action="<?php echo $editFormAction; ?>" method="POST" name="form1" id="form1" onsubmit="MM_validateForm('issue','','R');return document.MM_returnValue">
-      <div class="table-responsive">
-	    <table class="table table-striped">
-
-        <tr>
-          <td valign="top">&nbsp;</td>
-          <td valign="top"><strong>New Issue </strong></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Issue</strong></td>
-          <td valign="top"><input name="issue" type="text" id="issue" size="55" /></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Template</strong></td>
-          <td valign="top"><textarea name="template" cols="55" rows="10" id="template"></textarea></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Comments / Analysis </strong></td>
-          <td valign="top"><textarea name="comments" cols="55" rows="10" id="comments"></textarea></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Hint About Why this issue is prese</strong>nt? </td>
-          <td valign="top"><textarea name="statementHint" cols="55" rows="10" id="statementHint"></textarea></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Sorting</strong></td>
-          <td valign="top"><label>
-            <input name="sorting" type="text" id="sorting" value="0" />
-          </label></td>
-        </tr>
-        <tr>
-          <td valign="top">&nbsp;</td>
-          <td valign="top"><label>
-            <input type="submit" name="Submit2" value="Submit" />
-            <input name="essay_id" type="hidden" id="essay_id" value="<?php echo $_GET['essay_id']; ?>" />
-            <input name="user_id" type="hidden" id="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>" />
-            <input name="subject" type="hidden" id="subject" value="<?php echo $_GET['subject']; ?>" />
-          </label></td>
-        </tr>
-     </table>
-</div>
-      <input type="hidden" name="MM_insert" value="form1">
-</form></td>
-    <td valign="top"><form action="<?php echo $editFormAction; ?>" method="POST" name="form2" id="form2">
-      <div class="table-responsive">
-	    <table class="table table-striped">
-
-        <tr>
-          <td valign="top"><strong>Existing Issue</strong></td>
-          <td valign="top"><strong>
-            <select name="issue_id" id="issue_id">
-              <option value="">Select</option>
-              <?php
+<h1>Add Issue to Essay</h1>
+<p>&nbsp;</p>
+<form action="<?php echo $editFormAction; ?>" method="post" name="form2" id="form2">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <td valign="top"><strong>Existing Issue</strong></td>
+        <td valign="top"><strong>
+          <select name="issue_id" id="issue_id">
+            <option value="">Select</option>
+            <?php
 do {  
 ?>
-              <option value="<?php echo $row_rsIssues['issue_id']?>"><?php echo $row_rsIssues['issue']?> / <?php echo $row_rsIssues['issue_id']?></option>
-              <?php
+            <option value="<?php echo $row_rsIssues['issue_id']?>"><?php echo $row_rsIssues['issue']?> / <?php echo $row_rsIssues['issue_id']?></option>
+            <?php
 } while ($row_rsIssues = mysql_fetch_assoc($rsIssues));
   $rows = mysql_num_rows($rsIssues);
   if($rows > 0) {
@@ -400,39 +360,78 @@ do {
 	  $row_rsIssues = mysql_fetch_assoc($rsIssues);
   }
 ?>
-            </select>
-          </strong></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Comments / Analysis </strong></td>
-          <td valign="top"><textarea name="comments" cols="55" rows="10" id="comments"></textarea></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Sorting</strong></td>
-          <td valign="top"><label>
-            <input name="sorting" type="text" id="sorting" value="0" />
-          </label></td>
-        </tr>
-        <tr>
-          <td valign="top"><strong>Hint About Why this issue is prese</strong>nt? </td>
-          <td valign="top"><textarea name="statementHint" cols="55" rows="10" id="statementHint"></textarea></td>
-        </tr>
-        <tr>
-          <td valign="top"><input name="essay_id" type="hidden" id="essay_id" value="<?php echo $_GET['essay_id']; ?>" />
+          </select>
+        </strong></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Comments / Analysis </strong></td>
+        <td valign="top"><textarea name="comments" cols="55" rows="10" id="comments"></textarea></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Sorting</strong></td>
+        <td valign="top"><label>
+          <input name="sorting" type="text" id="sorting" value="0" />
+        </label></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Hint About Why this issue is prese</strong>nt? </td>
+        <td valign="top"><textarea name="statementHint" cols="55" rows="10" id="statementHint"></textarea></td>
+      </tr>
+      <tr>
+        <td valign="top"><input name="essay_id" type="hidden" id="essay_id" value="<?php echo $_GET['essay_id']; ?>" />
             <input name="user_id" type="hidden" id="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>" />
             <input name="subject" type="hidden" id="subject" value="<?php echo $_GET['subject']; ?>" /></td>
-          <td valign="top"><label>
-            <input type="submit" name="Submit" value="Submit" />
-          </label></td>
-        </tr>
-      </table>
-</div>
-      <input type="hidden" name="MM_insert" value="form2">
-    </form></td>
-  </tr>
-</table>
-
-
+        <td valign="top">
+          <input type="submit" name="Submit" value="Submit" />
+        </td>
+      </tr>
+    </table>
+  </div>
+  <input type="hidden" name="MM_insert" value="form2" />
+</form>
+<h1>Add New Issue</h1>
+<form action="<?php echo $editFormAction; ?>" method="post" name="form1" id="form1" onsubmit="MM_validateForm('issue','','R');return document.MM_returnValue">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tr>
+        <td valign="top">&nbsp;</td>
+        <td valign="top"><strong>New Issue </strong></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Issue</strong></td>
+        <td valign="top"><input name="issue" type="text" id="issue" size="55" /></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Template</strong></td>
+        <td valign="top"><textarea name="template" cols="55" rows="10" id="template"></textarea></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Comments / Analysis </strong></td>
+        <td valign="top"><textarea name="comments" cols="55" rows="10" id="comments"></textarea></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Hint About Why this issue is prese</strong>nt? </td>
+        <td valign="top"><textarea name="statementHint" cols="55" rows="10" id="statementHint"></textarea></td>
+      </tr>
+      <tr>
+        <td valign="top"><strong>Sorting</strong></td>
+        <td valign="top"><label>
+          <input name="sorting" type="text" id="sorting" value="0" />
+        </label></td>
+      </tr>
+      <tr>
+        <td valign="top">&nbsp;</td>
+        <td valign="top"><label>
+          <input type="submit" name="Submit2" value="Submit" />
+          <input name="essay_id" type="hidden" id="essay_id" value="<?php echo $_GET['essay_id']; ?>" />
+          <input name="user_id" type="hidden" id="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>" />
+          <input name="subject" type="hidden" id="subject" value="<?php echo $_GET['subject']; ?>" />
+        </label></td>
+      </tr>
+    </table>
+  </div>
+  <input type="hidden" name="MM_insert" value="form1" />
+</form>
 
 </div>
 <!-- InstanceEndEditable -->

@@ -7,6 +7,10 @@
 <!-- TemplateEndEditable -->
 <link rel="stylesheet" href="../lawbar/css/bootstrap.min.css">
 <link rel="stylesheet" href="../lawbar/css/style.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
 </head>
 
@@ -34,6 +38,9 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Essays <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="../lawbar/essays.php">Manage Essay</a></li>
+                <li><a href="../lawbar/issues.php?subject=contracts">Manage Issues - Contracts</a></li>
+                <li><a href="../lawbar/issues.php?subject=torts">Manage Issues - Torts</a></li>
+                <li><a href="../lawbar/issues.php?subject=criminal">Manage Issues - Criminal</a></li>
               </ul>
             </li>
 			

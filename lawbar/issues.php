@@ -3,7 +3,7 @@
 if (!isset($_SESSION)) {
   session_start();
 }
-$MM_authorizedUsers = "admin,member";
+$MM_authorizedUsers = "";
 $MM_donotCheckaccess = "true";
 
 // *** Restrict Access To Page: Grant or deny access to this page
@@ -78,17 +78,17 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO law_essays (essay_id, essay, month_year, user_id, subject) VALUES (%s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['subject'], "int"),
-                       GetSQLValueString($_POST['essay'], "text"),
-                       GetSQLValueString($_POST['month_year'], "text"),
+  $insertSQL = sprintf("INSERT INTO law_issues (issue, subject, template, user_id, hints) VALUES (%s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['issue'], "text"),
+                       GetSQLValueString($_POST['subject'], "text"),
+                       GetSQLValueString($_POST['template'], "text"),
                        GetSQLValueString($_POST['user_id'], "int"),
-                       GetSQLValueString($_POST['subject'], "text"));
+                       GetSQLValueString($_POST['hints'], "text"));
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
 
-  $insertGoTo = "essays.php";
+  $insertGoTo = "issues.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
     $insertGoTo .= $_SERVER['QUERY_STRING'];
@@ -96,52 +96,52 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   header(sprintf("Location: %s", $insertGoTo));
 }
 
-$maxRows_rsMyEssays = 25;
-$pageNum_rsMyEssays = 0;
-if (isset($_GET['pageNum_rsMyEssays'])) {
-  $pageNum_rsMyEssays = $_GET['pageNum_rsMyEssays'];
+$maxRows_rsIssues = 25;
+$pageNum_rsIssues = 0;
+if (isset($_GET['pageNum_rsIssues'])) {
+  $pageNum_rsIssues = $_GET['pageNum_rsIssues'];
 }
-$startRow_rsMyEssays = $pageNum_rsMyEssays * $maxRows_rsMyEssays;
+$startRow_rsIssues = $pageNum_rsIssues * $maxRows_rsIssues;
 
-$colname_rsMyEssays = "-1";
+$colname_rsIssues = "-1";
 if (isset($_SESSION['MM_UserId'])) {
-  $colname_rsMyEssays = (get_magic_quotes_gpc()) ? $_SESSION['MM_UserId'] : addslashes($_SESSION['MM_UserId']);
+  $colname_rsIssues = (get_magic_quotes_gpc()) ? $_SESSION['MM_UserId'] : addslashes($_SESSION['MM_UserId']);
 }
 mysql_select_db($database_conn, $conn);
-$query_rsMyEssays = sprintf("SELECT * FROM law_essays WHERE user_id = %s AND deleted = 0 ORDER BY essay_id DESC", $colname_rsMyEssays);
-$query_limit_rsMyEssays = sprintf("%s LIMIT %d, %d", $query_rsMyEssays, $startRow_rsMyEssays, $maxRows_rsMyEssays);
-$rsMyEssays = mysql_query($query_limit_rsMyEssays, $conn) or die(mysql_error());
-$row_rsMyEssays = mysql_fetch_assoc($rsMyEssays);
+$query_rsIssues = sprintf("SELECT * FROM law_issues WHERE user_id = %s AND issue_deleted = 0 ORDER BY issue_id DESC", $colname_rsIssues);
+$query_limit_rsIssues = sprintf("%s LIMIT %d, %d", $query_rsIssues, $startRow_rsIssues, $maxRows_rsIssues);
+$rsIssues = mysql_query($query_limit_rsIssues, $conn) or die(mysql_error());
+$row_rsIssues = mysql_fetch_assoc($rsIssues);
 
-if (isset($_GET['totalRows_rsMyEssays'])) {
-  $totalRows_rsMyEssays = $_GET['totalRows_rsMyEssays'];
+if (isset($_GET['totalRows_rsIssues'])) {
+  $totalRows_rsIssues = $_GET['totalRows_rsIssues'];
 } else {
-  $all_rsMyEssays = mysql_query($query_rsMyEssays);
-  $totalRows_rsMyEssays = mysql_num_rows($all_rsMyEssays);
+  $all_rsIssues = mysql_query($query_rsIssues);
+  $totalRows_rsIssues = mysql_num_rows($all_rsIssues);
 }
-$totalPages_rsMyEssays = ceil($totalRows_rsMyEssays/$maxRows_rsMyEssays)-1;
+$totalPages_rsIssues = ceil($totalRows_rsIssues/$maxRows_rsIssues)-1;
 
-$queryString_rsMyEssays = "";
+$queryString_rsIssues = "";
 if (!empty($_SERVER['QUERY_STRING'])) {
   $params = explode("&", $_SERVER['QUERY_STRING']);
   $newParams = array();
   foreach ($params as $param) {
-    if (stristr($param, "pageNum_rsMyEssays") == false && 
-        stristr($param, "totalRows_rsMyEssays") == false) {
+    if (stristr($param, "pageNum_rsIssues") == false && 
+        stristr($param, "totalRows_rsIssues") == false) {
       array_push($newParams, $param);
     }
   }
   if (count($newParams) != 0) {
-    $queryString_rsMyEssays = "&" . htmlentities(implode("&", $newParams));
+    $queryString_rsIssues = "&" . htmlentities(implode("&", $newParams));
   }
 }
-$queryString_rsMyEssays = sprintf("&totalRows_rsMyEssays=%d%s", $totalRows_rsMyEssays, $queryString_rsMyEssays);
+$queryString_rsIssues = sprintf("&totalRows_rsIssues=%d%s", $totalRows_rsIssues, $queryString_rsIssues);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/lawbar.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Essays</title>
+<title>Issues</title>
 <!-- InstanceEndEditable -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -239,85 +239,100 @@ function MM_validateForm() { //v4.0
     </nav>
 <!-- InstanceBeginEditable name="EditRegion3" -->
 <div class="container">
-<h1>Enter New Essay</h1>
-<form action="<?php echo $editFormAction; ?>" method="post" name="form1" onsubmit="MM_validateForm('month_year','','R','essay','','R');return document.MM_returnValue">
+<h1>Issues</h1>
+<form action="<?php echo $editFormAction; ?>" method="POST" name="form1" id="form1" onsubmit="MM_validateForm('issue','','R');return document.MM_returnValue">
   <div class="table-responsive">
-	    <table class="table table-striped">
-
-    <tr valign="baseline">
-      <td nowrap align="right">Month Year / Reference:</td>
-      <td><input type="text" name="month_year" value="" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right" valign="top">Subject:</td>
-      <td><label>
-        <select name="subject" id="subject">
-          <option value="contracts">Contracts</option>
-          <option value="torts">Torts</option>
-          <option value="criminal">Criminal</option>
-        </select>
-      </label></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right" valign="top">Essay:</td>
-      <td><textarea name="essay" cols="50" rows="10"></textarea>      </td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="Insert record"></td>
-    </tr>
-</table>
-</div>
-  <input type="hidden" name="MM_insert" value="form1">
-  <input name="user_id" type="hidden" id="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>" />
+    <table class="table table-striped">
+      <tr>
+        <td valign="top">&nbsp;</td>
+        <td valign="top"><strong>New Issue </strong></td>
+      </tr>
+      <tr>
+        <td align="right" valign="top"><strong>Subject</strong></td>
+        <td valign="top"><select name="subject" id="subject">
+          <option value="contracts" <?php if (!(strcmp("contracts", $_GET['subject']))) {echo "selected=\"selected\"";} ?>>Contracts</option>
+          <option value="torts" <?php if (!(strcmp("torts", $_GET['subject']))) {echo "selected=\"selected\"";} ?>>Torts</option>
+          <option value="criminal" <?php if (!(strcmp("criminal", $_GET['subject']))) {echo "selected=\"selected\"";} ?>>Criminal</option>
+        </select>        </td>
+      </tr>
+      <tr>
+        <td align="right" valign="top"><strong>Issue</strong></td>
+        <td valign="top"><input name="issue" type="text" id="issue" size="55" /></td>
+      </tr>
+      <tr>
+        <td align="right" valign="top"><strong>Template</strong></td>
+        <td valign="top"><textarea name="template" cols="55" rows="10" id="template"></textarea></td>
+      </tr>
+      <tr valign="baseline">
+        <td nowrap="nowrap" align="right"><strong>Hints:</strong></td>
+        <td>
+          <input name="hints" type="text" id="hints" size="55" />
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">&nbsp;</td>
+        <td valign="top"><label>
+          <input type="submit" name="Submit2" value="Submit" />
+          <input name="essay_id" type="hidden" id="essay_id" value="<?php echo $_GET['essay_id']; ?>" />
+          <input name="user_id" type="hidden" id="user_id" value="<?php echo $_SESSION['MM_UserId']; ?>" />
+        </label></td>
+      </tr>
+    </table>
+  </div>
+  <input type="hidden" name="MM_insert" value="form1" />
 </form>
-<?php if ($totalRows_rsMyEssays > 0) { // Show if recordset not empty ?>
-    <h1>View My Essays </h1>
+<?php if ($totalRows_rsIssues > 0) { // Show if recordset not empty ?>
+  <h1>View Issues</h1>
   <div class="table-responsive">
 	    <table class="table table-striped">
 
     <tr>
-      <td valign="top"><strong>Subject</strong></td>
-      <td valign="top"><strong>Month / Year or Reference </strong></td>
-      <td valign="top"><strong>Essay</strong></td>
-      <td valign="top"><strong>Create Date </strong></td>
-      <td valign="top"><strong>Delete</strong></td>
-      <td valign="top"><strong>Issues</strong></td>
+      <td><strong>Issue ID</strong> </td>
+      <td><strong>issue</strong></td>
+        <td><strong>subject</strong></td>
+        <td><strong>template</strong></td>
+        <td><strong>hint</strong></td>
+        <td><strong>Edit</strong></td>
     </tr>
     <?php do { ?>
       <tr>
-        <td valign="top"><?php echo $row_rsMyEssays['subject']; ?></td>
-        <td valign="top"><?php echo $row_rsMyEssays['month_year']; ?></td>
-        <td valign="top"><?php echo stripslashes(nl2br($row_rsMyEssays['essay'])); ?></td>
-        <td valign="top"><?php echo $row_rsMyEssays['created_dt']; ?></td>
-        <td valign="top"><a href="essays_delete.php?essay_id=<?php echo $row_rsMyEssays['essay_id']; ?>" onclick="var a = confirm('do you really want to delete this?'); return a;">Delete</a></td>
-        <td valign="top"><a href="essays_issues.php?essay_id=<?php echo $row_rsMyEssays['essay_id']; ?>&subject=<?php echo $row_rsMyEssays['subject']; ?>">Issues</a></td>
+        <td><?php echo $row_rsIssues['issue_id']; ?></td>
+        <td><?php echo $row_rsIssues['issue']; ?></td>
+        <td><?php echo $row_rsIssues['subject']; ?></td>
+        <td><?php echo nl2br($row_rsIssues['template']); ?></td>
+        <td><?php echo $row_rsIssues['hints']; ?></td>
+        <td><a href="issues_edit.php?issue_id=<?php echo $row_rsIssues['issue_id']; ?>&subject=<?php echo $row_rsIssues['subject']; ?>&pageNum_rsIssues=<?php echo $pageNum_rsIssues; ?>">Edit</a></td>
       </tr>
-      <?php } while ($row_rsMyEssays = mysql_fetch_assoc($rsMyEssays)); ?>
+      <?php } while ($row_rsIssues = mysql_fetch_assoc($rsIssues)); ?>
 </table>
 </div>
-  <p> Records <?php echo ($startRow_rsMyEssays + 1) ?> to <?php echo min($startRow_rsMyEssays + $maxRows_rsMyEssays, $totalRows_rsMyEssays) ?> of <?php echo $totalRows_rsMyEssays ?></p>
-  <table border="0" width="50%" align="center">
-    <tr>
-      <td width="23%" align="center"><?php if ($pageNum_rsMyEssays > 0) { // Show if not first page ?>
-          <a href="<?php printf("%s?pageNum_rsMyEssays=%d%s", $currentPage, 0, $queryString_rsMyEssays); ?>">First</a>
-      <?php } // Show if not first page ?>      </td>
-      <td width="31%" align="center"><?php if ($pageNum_rsMyEssays > 0) { // Show if not first page ?>
-          <a href="<?php printf("%s?pageNum_rsMyEssays=%d%s", $currentPage, max(0, $pageNum_rsMyEssays - 1), $queryString_rsMyEssays); ?>">Previous</a>
-      <?php } // Show if not first page ?>      </td>
-      <td width="23%" align="center"><?php if ($pageNum_rsMyEssays < $totalPages_rsMyEssays) { // Show if not last page ?>
-          <a href="<?php printf("%s?pageNum_rsMyEssays=%d%s", $currentPage, min($totalPages_rsMyEssays, $pageNum_rsMyEssays + 1), $queryString_rsMyEssays); ?>">Next</a>
-      <?php } // Show if not last page ?>      </td>
-      <td width="23%" align="center"><?php if ($pageNum_rsMyEssays < $totalPages_rsMyEssays) { // Show if not last page ?>
-          <a href="<?php printf("%s?pageNum_rsMyEssays=%d%s", $currentPage, $totalPages_rsMyEssays, $queryString_rsMyEssays); ?>">Last</a>
-      <?php } // Show if not last page ?>      </td>
-    </tr>
-  </table>
+  <p>&nbsp;</p>
+  <p> Records <?php echo ($startRow_rsIssues + 1) ?> to <?php echo min($startRow_rsIssues + $maxRows_rsIssues, $totalRows_rsIssues) ?> of <?php echo $totalRows_rsIssues ?></p>
+    <p>
+    <table border="0" width="50%" align="center">
+      <tr>
+        <td width="23%" align="center"><?php if ($pageNum_rsIssues > 0) { // Show if not first page ?>
+            <a href="<?php printf("%s?pageNum_rsIssues=%d%s", $currentPage, 0, $queryString_rsIssues); ?>">First</a>
+            <?php } // Show if not first page ?>        </td>
+        <td width="31%" align="center"><?php if ($pageNum_rsIssues > 0) { // Show if not first page ?>
+            <a href="<?php printf("%s?pageNum_rsIssues=%d%s", $currentPage, max(0, $pageNum_rsIssues - 1), $queryString_rsIssues); ?>">Previous</a>
+            <?php } // Show if not first page ?>        </td>
+        <td width="23%" align="center"><?php if ($pageNum_rsIssues < $totalPages_rsIssues) { // Show if not last page ?>
+            <a href="<?php printf("%s?pageNum_rsIssues=%d%s", $currentPage, min($totalPages_rsIssues, $pageNum_rsIssues + 1), $queryString_rsIssues); ?>">Next</a>
+            <?php } // Show if not last page ?>        </td>
+        <td width="23%" align="center"><?php if ($pageNum_rsIssues < $totalPages_rsIssues) { // Show if not last page ?>
+            <a href="<?php printf("%s?pageNum_rsIssues=%d%s", $currentPage, $totalPages_rsIssues, $queryString_rsIssues); ?>">Last</a>
+            <?php } // Show if not last page ?>        </td>
+      </tr>
+      </table>
   <?php } // Show if recordset not empty ?>
+<script>
+document.getElementById('issue').focus();
+</script>
 </div>
 <!-- InstanceEndEditable -->
 </body>
 <!-- InstanceEnd --></html>
 <?php
-mysql_free_result($rsMyEssays);
+mysql_free_result($rsIssues);
 ?>
