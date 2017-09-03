@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsEssays" value="name:essay_id;datatype:int,name:essay;datatype:blob,name:month_year;datatype:string,name:created_dt;datatype:timestamp,name:user_id;datatype:int,name:subject;datatype:string,name:deleted;datatype:int" />
+	<infoitem key="UD_rsEssayIssues" value="name:essay_issue_id;datatype:int,name:user_id;datatype:int,name:issue_id;datatype:int,name:comments;datatype:blob,name:sorting;datatype:int,name:essay_id;datatype:int,name:statementHint;datatype:blob,name:issue_id;datatype:int,name:issue;datatype:string,name:subject;datatype:string,name:template;datatype:blob,name:user_id;datatype:int" />
+	<infoitem key="UD_rsIssues" value="name:issue_id;datatype:int,name:issue;datatype:string,name:subject;datatype:string,name:template;datatype:blob,name:user_id;datatype:int" />
+</info>

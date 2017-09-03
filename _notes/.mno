@@ -11,8 +11,10 @@
 	<infoitem key="MM_Session7" value="MM_LoggedInTime" />
 	<infoitem key="MM_Session8" value="MM_ProfileUID" />
 	<infoitem key="MM_URL1" value="religion_id" />
-	<infoitem key="MM_URL_Count" value="1" />
+	<infoitem key="MM_URL_Count" value="3" />
 	<infoitem key="PageAccessControl" value="admin,member" />
 	<infoitem key="MM_Form1" value="religion_type" />
 	<infoitem key="MM_Form_Count" value="1" />
+	<infoitem key="MM_URL2" value="essay_id" />
+	<infoitem key="MM_URL3" value="subject" />
 </info>

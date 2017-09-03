@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsMyEssays" value="name:essay_id;datatype:int,name:essay;datatype:blob,name:month_year;datatype:string,name:created_dt;datatype:timestamp,name:user_id;datatype:int,name:subject;datatype:string,name:deleted;datatype:int" />
+</info>
