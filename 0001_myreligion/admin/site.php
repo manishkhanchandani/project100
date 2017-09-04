@@ -231,6 +231,8 @@ $team = json_decode($row_rsSiteInformation['site_our_team'], true);
               <ul class="dropdown-menu">
                 <li><a href="religions.php">Religions (Approve / Block)</a></li>
                 <li><a href="views.php">Verses (Approve / Block)</a></li>
+                <li><a href="site.php">Site Information</a></li>
+				
 				
               </ul>
             </li>

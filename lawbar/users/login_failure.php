@@ -11,8 +11,8 @@ if (!isset($_SESSION)) {
 <title>Login Failure</title>
 <!-- InstanceEndEditable -->
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="../css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../../0001_myreligion/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../0001_myreligion/css/style.css">
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -34,19 +34,19 @@ if (!isset($_SESSION)) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.php">My Religion</a>
+          <a class="navbar-brand" href="../../0001_myreligion/index.php">My Religion</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="../team.php">Our Team</a></li>
-            <li><a href="../about.php">About</a></li>
-            <li><a href="../contact.php">Contact</a></li>
+            <li><a href="../../0001_myreligion/team.php">Our Team</a></li>
+            <li><a href="../../0001_myreligion/about.php">About</a></li>
+            <li><a href="../../0001_myreligion/contact.php">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Religions <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="../create_religion.php">Create New Religion</a></li>
-                <li><a href="../home.php">Browse All Religions</a></li>
-                <li><a href="../my_religions.php">My Created Religions</a></li>
+                <li><a href="../../0001_myreligion/create_religion.php">Create New Religion</a></li>
+                <li><a href="../../0001_myreligion/home.php">Browse All Religions</a></li>
+                <li><a href="../../0001_myreligion/my_religions.php">My Created Religions</a></li>
               </ul>
             </li>
 			
@@ -54,11 +54,11 @@ if (!isset($_SESSION)) {
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu">
 			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="register.php">Register as New User</a></li>
+                <li><a href="../../0001_myreligion/users/login.php">Login</a></li>
+                <li><a href="../../0001_myreligion/users/register.php">Register as New User</a></li>
 				<?php } ?>
 				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="logout.php">Logout</a></li>
+                <li><a href="../../0001_myreligion/users/logout.php">Logout</a></li>
 				<?php } ?>
               </ul>
             </li>
@@ -67,8 +67,10 @@ if (!isset($_SESSION)) {
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="../admin/religions.php">Religions (Approve / Block)</a></li>
-                <li><a href="../admin/views.php">Verses (Approve / Block)</a></li>
+                <li><a href="../../0001_myreligion/admin/religions.php">Religions (Approve / Block)</a></li>
+                <li><a href="../../0001_myreligion/admin/views.php">Verses (Approve / Block)</a></li>
+                <li><a href="../../0001_myreligion/admin/site.php">Site Information</a></li>
+				
 				
               </ul>
             </li>

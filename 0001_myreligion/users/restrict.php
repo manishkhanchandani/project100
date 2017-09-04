@@ -69,6 +69,8 @@ if (!isset($_SESSION)) {
               <ul class="dropdown-menu">
                 <li><a href="../admin/religions.php">Religions (Approve / Block)</a></li>
                 <li><a href="../admin/views.php">Verses (Approve / Block)</a></li>
+                <li><a href="../admin/site.php">Site Information</a></li>
+				
 				
               </ul>
             </li>

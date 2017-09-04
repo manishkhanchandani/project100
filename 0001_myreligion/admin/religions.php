@@ -196,6 +196,8 @@ $queryString_rsReligions = sprintf("&totalRows_rsReligions=%d%s", $totalRows_rsR
               <ul class="dropdown-menu">
                 <li><a href="religions.php">Religions (Approve / Block)</a></li>
                 <li><a href="views.php">Verses (Approve / Block)</a></li>
+                <li><a href="site.php">Site Information</a></li>
+				
 				
               </ul>
             </li>

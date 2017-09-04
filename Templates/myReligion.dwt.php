@@ -64,6 +64,8 @@
               <ul class="dropdown-menu">
                 <li><a href="../0001_myreligion/admin/religions.php">Religions (Approve / Block)</a></li>
                 <li><a href="../0001_myreligion/admin/views.php">Verses (Approve / Block)</a></li>
+                <li><a href="../0001_myreligion/admin/site.php">Site Information</a></li>
+				
 				
               </ul>
             </li>
