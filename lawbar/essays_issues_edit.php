@@ -31,18 +31,16 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
-  $updateSQL = sprintf("UPDATE law_issues SET issue=%s, subject=%s, template=%s, issue_deleted=%s, hints=%s WHERE issue_id=%s",
-                       GetSQLValueString($_POST['issue'], "text"),
-                       GetSQLValueString($_POST['subject'], "text"),
-                       GetSQLValueString($_POST['template'], "text"),
-                       GetSQLValueString($_POST['issue_deleted'], "int"),
-                       GetSQLValueString($_POST['hints'], "text"),
-                       GetSQLValueString($_POST['issue_id'], "int"));
+  $updateSQL = sprintf("UPDATE law_essay_issues SET comments=%s, sorting=%s, statementHint=%s WHERE essay_issue_id=%s",
+                       GetSQLValueString($_POST['comments'], "text"),
+                       GetSQLValueString($_POST['sorting'], "int"),
+                       GetSQLValueString($_POST['statementHint'], "text"),
+                       GetSQLValueString($_POST['essay_issue_id'], "int"));
 
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($updateSQL, $conn) or die(mysql_error());
 
-  $updateGoTo = "issues.php";
+  $updateGoTo = "essays_issues.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
     $updateGoTo .= $_SERVER['QUERY_STRING'];
@@ -51,11 +49,11 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 }
 
 $colname_rsEdit = "-1";
-if (isset($_GET['issue_id'])) {
-  $colname_rsEdit = (get_magic_quotes_gpc()) ? $_GET['issue_id'] : addslashes($_GET['issue_id']);
+if (isset($_GET['essay_issue_id'])) {
+  $colname_rsEdit = (get_magic_quotes_gpc()) ? $_GET['essay_issue_id'] : addslashes($_GET['essay_issue_id']);
 }
 mysql_select_db($database_conn, $conn);
-$query_rsEdit = sprintf("SELECT * FROM law_issues WHERE issue_id = %s", $colname_rsEdit);
+$query_rsEdit = sprintf("SELECT * FROM law_essay_issues WHERE essay_issue_id = %s", $colname_rsEdit);
 $rsEdit = mysql_query($query_rsEdit, $conn) or die(mysql_error());
 $row_rsEdit = mysql_fetch_assoc($rsEdit);
 $totalRows_rsEdit = mysql_num_rows($rsEdit);
@@ -133,49 +131,36 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
 <div class="container">
 <h1>Edit Issue</h1>
 <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-  <div class="table-responsive">
+    <div class="table-responsive">
 	    <table class="table table-striped">
 
-    <tr valign="baseline">
-      <td nowrap align="right"><strong>Issue:</strong></td>
-      <td><input type="text" name="issue" value="<?php echo $row_rsEdit['issue']; ?>" size="32"></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right"><strong>Subject:</strong></td>
-      <td><select name="subject">
-        <option value="contracts" <?php if (!(strcmp("contracts", $row_rsEdit['subject']))) {echo "SELECTED";} ?>>Contracts</option>
-        <option value="torts" <?php if (!(strcmp("torts", $row_rsEdit['subject']))) {echo "SELECTED";} ?>>Torts</option>
-        <option value="criminal" <?php if (!(strcmp("criminal", $row_rsEdit['subject']))) {echo "SELECTED";} ?>>Criminal</option>
-      </select>      </td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right" valign="top"><strong>Template:</strong></td>
-      <td><textarea name="template" cols="50" rows="10" id="template"><?php echo $row_rsEdit['template']; ?></textarea>      </td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right"><strong>Issue Deleted:</strong></td>
-      <td><input type="text" name="issue_deleted" value="<?php echo $row_rsEdit['issue_deleted']; ?>" size="32"></td>
-    </tr>
-    <tr valign="baseline" class="table table-striped">
-      <td nowrap="nowrap" align="right"><strong>Hints:</strong></td>
-      <td>
-        <input name="hints" type="text" id="hints" value="<?php echo $row_rsEdit['hints']; ?>" size="55" />
-      </td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap align="right">&nbsp;</td>
-      <td><input type="submit" value="Update record"></td>
-    </tr>
-</table>
+      <tr valign="baseline">
+        <td nowrap align="right" valign="top">Comments:</td>
+        <td valign="top"><textarea name="comments" id="comments" cols="50" rows="10"><?php echo $row_rsEdit['comments']; ?></textarea>        </td>
+      </tr>
+      <tr valign="baseline">
+        <td align="right" valign="top" nowrap>Sorting:</td>
+        <td valign="top"><input type="text" name="sorting" value="<?php echo $row_rsEdit['sorting']; ?>" size="32"></td>
+      </tr>
+      <tr valign="baseline">
+        <td align="right" valign="top" nowrap>Hint:</td>
+        <td valign="top"><textarea name="statementHint" cols="50" rows="5" id="statementHint" ><?php echo $row_rsEdit['statementHint']; ?>          </textarea></td>
+      </tr>
+      <tr valign="baseline">
+        <td align="right" valign="top" nowrap>&nbsp;</td>
+        <td valign="top"><input type="submit" value="Update record"></td>
+      </tr>
+    </table>
 </div>
-  <input type="hidden" name="MM_update" value="form1">
-  <input type="hidden" name="issue_id" value="<?php echo $row_rsEdit['issue_id']; ?>">
-</form>
+    <input type="hidden" name="MM_update" value="form1">
+    <input type="hidden" name="essay_issue_id" value="<?php echo $row_rsEdit['essay_issue_id']; ?>">
+  </form>
 <script>
-    $(document).ready(function() {
-        $('#template').summernote();
+document.getElementById('comments').focus();
+ 	$(document).ready(function() {
+        $('#comments').summernote();
     });
-  </script>
+</script>
 </div>
 <!-- InstanceEndEditable -->
 </body>

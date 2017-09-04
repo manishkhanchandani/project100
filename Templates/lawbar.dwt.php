@@ -11,6 +11,11 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- include summernote css/js-->
+<link href="../lawbar/library/wysiwyg/summernote.css" rel="stylesheet">
+<script src="../lawbar/library/wysiwyg/summernote.js"></script>
+
 <!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
 </head>
 

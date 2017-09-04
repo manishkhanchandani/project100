@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="essays.php" local="131489399029319438" remote="131489397260000000" testing="131489397260000000" />
+<file name="essays.php" local="131489631763652974" remote="131489629190000000" testing="131489629190000000" />
 <file name="essays_confirm.php" local="131488803360218713" remote="131488800260000000" testing="131488800260000000" />
 <file name="essays_delete.php" local="131488810265293255" remote="131488808850000000" testing="131488808850000000" />
-<file name="essays_issues.php" local="131489424829321994" remote="131489423030000000" testing="131489423030000000" />
-<file name="issues.php" local="131489429844409797" remote="131489427330000000" testing="131489427330000000" />
-<file name="issues_edit.php" local="131489316864396741" remote="131489315660000000" testing="131489315660000000" />
+<file name="essays_issues.php" local="131489748801382644" remote="131489745160000000" testing="131489745160000000" />
+<file name="issues.php" local="131489631764490396" remote="131489629190000000" testing="131489629190000000" />
+<file name="issues_edit.php" local="131489632790913410" remote="131489629190000000" testing="131489629190000000" />
+<file name="essays_issues_edit.php" local="131490050910629829" remote="131490050100000000" testing="131490050100000000" />
 </dwsync>
