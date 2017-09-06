@@ -1,8 +1,15 @@
+<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+
+?>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>display</title>
+<script src="../js/jquery-3.2.1.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/4.1.5/firebase.js"></script>
 <script>
   // Initialize Firebase
@@ -21,7 +28,6 @@
 	
 	firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
-		  console.log('auth user: ', user);
 		var userData = {};
 		userData.displayName = user.displayName;
 		userData.email = user.email;
@@ -30,18 +36,42 @@
 		userData.refreshToken = user.refreshToken;
 		userData.uid = user.uid;
 		
-		console.log('userData2 is ', userData);
 	  } else {
 		console.log('user is logged out');
 	  }
 	});
 	
 	function postToApi(obj) {
-		//i want to send the obj i.e. userData to userApi.php
+		console.log('postToApi obj is ', obj);
+		postJson('api.php', obj);
 		
-		console.log('obj is ', obj);
-		//AJAX - we pass the data to backend without page refresh
-		
+	}
+	
+	//if i have to post json data to server
+	function postJson(postUrl, params) {
+		var jqxhr = $.ajax({
+			url: postUrl,
+			type: 'POST',
+			data: JSON.stringify(params),
+			constenType: 'application/json; charset=utf-8'
+		}).done(function(response) {
+			console.log('success response = ', response);
+			window.location.href = '../home.php';
+		}).fail(function(jqxhr, settings, ex) {
+			console.log('jqxhr is ', jqxhr);
+			console.log('settings is ', settings);
+			console.log('ex is ', ex);
+		});
+	}
+	
+	//post data in key=value&key1=value1 (Format)
+	function post() {
+	
+	}
+	
+	// search relate method
+	function get() {
+	
 	}
 
 
@@ -50,8 +80,6 @@
 		firebase.auth().signInWithPopup(provider).then(function(result) {
 		
 			var user = result.user;
-		  	console.log('user is ', user);
-			
 			var userData = {};
 			userData.displayName = user.displayName;
 			userData.email = user.email;
@@ -61,8 +89,6 @@
 			userData.uid = user.uid;
 			userData.provider_id = user.providerData[0].providerId;
 			
-			console.log('userData is ', userData);
-			//something to pass userData to backend php api
 			postToApi(userData);
 		}).catch(function(error) {
 		  console.log('error is ', error);
@@ -74,7 +100,6 @@
 		firebase.auth().signInWithPopup(provider).then(function(result) {
 		  
 			var user = result.user;
-		  	console.log('user is ', user);
 			
 			var userData = {};
 			userData.displayName = user.displayName;
@@ -85,7 +110,7 @@
 			userData.uid = user.uid;
 			userData.provider_id = user.providerData[0].providerId;
 			
-			console.log('userData is ', userData);
+			postToApi(userData);
 		}).catch(function(error) {
 		  console.log('error is ', error);
 		});
@@ -96,7 +121,6 @@
 		var provider = new firebase.auth.TwitterAuthProvider();
 		firebase.auth().signInWithPopup(provider).then(function(result) {
 		  var user = result.user;
-		  	console.log('user is ', user);
 			
 			var userData = {};
 			userData.displayName = user.displayName;
@@ -107,7 +131,7 @@
 			userData.uid = user.uid;
 			userData.provider_id = user.providerData[0].providerId;
 			
-			console.log('userData is ', userData);
+			postToApi(userData);
 		}).catch(function(error) {
 		  console.log('error is ', error);
 		});
@@ -119,7 +143,6 @@
 		
 		firebase.auth().signInWithPopup(provider).then(function(result) {
  			var user = result.user;
-		  	console.log('user is ', user);
 			
 			var userData = {};
 			userData.displayName = user.displayName;
@@ -130,7 +153,7 @@
 			userData.uid = user.uid;
 			userData.provider_id = user.providerData[0].providerId;
 			
-			console.log('userData is ', userData);
+			postToApi(userData);
 		}).catch(function(error) {
 		 	console.log('error is ', error);
 		});

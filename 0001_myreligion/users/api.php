@@ -16,15 +16,18 @@ try {
 	$return = array();
 
 	$return['success'] = 1;
+	
+	$post = file_get_contents('php://input');
+	$userData = json_decode($post, true);//true is use to make it in array, else it will object	
 
-	$userData = array();
+	/*$userData = array();
 	$userData['displayName'] = 'Manish Khanchandani 2';
 	$userData['email'] = 'manishkk74@gmail.com';
 	$userData['photoURL'] = 'https://lh6.googleusercontent.com/-nLg0dFRo0DQ/AAAAAAAAAAI/AAAAAAAArjM/wWzo9wl_lFM/photo.jpg';
 	$userData['profileUID'] = '112913147917981568678';
 	$userData['provider_id'] = 'google.com';
 	$userData['refreshToken'] = 'APRrRCKkVmq3FGpHiYfzZd0XKkO_Ql6P3-7-xykM9Dv8ZdUukUqbUaJLCq6M8LQ64o3FHQig6fUjXFjF4vXdGVU6QXgVoaw6tMeYRLgHwzQtwgzZDPlcDvOfxYCAiF750nzYzxMMdZ4E2aSkEH8LmLHqpcr_GCZYUa7wXT7mi5m9xBPyhzBEhKY4sXjisWeE_Q7SByiv35L4aim7K2pUcfs4jHjUlaWa_EdsYbjBAMBrBSbU01WQpPg34Xslr8kMnn5-VIYQYpZGzYPVTAiIfc_clkeYOmFFMFplX4TlmxYKcv72PShV6s_jurYsGnvQJA55iNPkAKh0kxEw95v1GEzTn6Z2P_P3EpOl1aXx9U9Gv1p3R5sT6v-J6DfJgSha-GXVoh3J0skR';
-	$userData['uid'] = 'W5F3YbU9OTdrDccldzyEnulJp3G2';
+	$userData['uid'] = 'W5F3YbU9OTdrDccldzyEnulJp3G2';*/
 	
 	//VERIFICATON PROCESS STARTED AND HERE I AM VERIFYING REFRESH TOKEN FROM FRONT END WITH FIREBASE BACKEND
 	$refreshToken = $userData['refreshToken'];
