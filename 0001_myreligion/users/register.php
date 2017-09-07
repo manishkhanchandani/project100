@@ -127,10 +127,14 @@ $cpassword = isset($_POST['cpassword']) ? $_POST['cpassword'] : '';
 <link rel="stylesheet" href="../css/bootstrap.min.css">
 <link rel="stylesheet" href="../css/style.css">
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script src="../js/firebase.js"></script>
+<script src="../js/script.js"></script>
 <!-- InstanceBeginEditable name="head" -->
 <meta charset="utf-8">
 
@@ -197,16 +201,22 @@ function MM_validateForm() { //v4.0
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu">
 			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="register.php">Register as New User</a></li>
+                <li><a href="#" onClick="googleLogin(); return false;">Google Login</a></li>
+                <li><a href="#" onClick="facebookLogin(); return false;">Facebook Login</a></li>
+                <li><a href="#" onClick="twitterLogin(); return false;">Twitter Login</a></li>
+                <li><a href="#" onClick="gitHubLogin(); return false;">Github Login</a></li>
 				<?php } ?>
 				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="logout.php">Logout</a></li>
+				<li><a href="#"><strong>Name:</strong> <?php echo $_SESSION['MM_DisplayName']; ?></a></li>
+				<li><a href="#"><strong>Email:</strong> <?php echo $_SESSION['MM_Username']; ?></a></li>
+				<li><a href="#"><strong>Access Level:</strong> <?php echo $_SESSION['MM_UserGroup']; ?></a></li>
+				
+                <li><a href="#" onClick="signOut(); return false;">Logout</a></li>
 				<?php } ?>
               </ul>
             </li>
 			
-			
+			<?php if (!empty($_SESSION['MM_UserGroup']) && $_SESSION['MM_UserGroup'] === 'admin') { ?>
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -217,6 +227,7 @@ function MM_validateForm() { //v4.0
 				
               </ul>
             </li>
+			<?php } ?>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

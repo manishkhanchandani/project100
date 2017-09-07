@@ -42,29 +42,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 
-if ((isset($_GET['delete_id'])) && ($_GET['delete_id'] != "")) {
-  $deleteSQL = sprintf("UPDATE religions_view SET view_status=3 WHERE view_id=%s",
-					   GetSQLValueString($_GET['delete_id'], "int"));
-
-  mysql_select_db($database_conn, $conn);
-  $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
-  
-  
-  header("Location: detail.php?religion_id=".$_GET['religion_id']);
-  exit;
-}
-
-
-if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "")) {
-  $deleteSQL = sprintf("UPDATE religions_view SET view_status=3 WHERE religion_id=%s",
-					   GetSQLValueString($_GET['delete_religion_id'], "int"));
-
-  mysql_select_db($database_conn, $conn);
-  $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
-  
-  header("Location: detail.php?religion_id=".$_GET['religion_id']);
-  exit;
-}
 
 
 
@@ -126,6 +103,30 @@ if (!empty($_SERVER['QUERY_STRING'])) {
   }
 }
 $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses, $queryString_rsVerses);
+
+if ((isset($_GET['delete_id'])) && ($_GET['delete_id'] != "") && !empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) {
+  $deleteSQL = sprintf("UPDATE religions_view SET view_status=3 WHERE view_id=%s",
+					   GetSQLValueString($_GET['delete_id'], "int"));
+
+  mysql_select_db($database_conn, $conn);
+  $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
+  
+  
+  header("Location: detail.php?religion_id=".$_GET['religion_id']);
+  exit;
+}
+
+
+if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") && !empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) {
+  $deleteSQL = sprintf("UPDATE religions_view SET view_status=3 WHERE religion_id=%s",
+					   GetSQLValueString($_GET['delete_religion_id'], "int"));
+
+  mysql_select_db($database_conn, $conn);
+  $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
+  
+  header("Location: detail.php?religion_id=".$_GET['religion_id']);
+  exit;
+}
 ?><!doctype html>
 <html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -137,10 +138,14 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script src="js/firebase.js"></script>
+<script src="js/script.js"></script>
 <!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 </head>
 
@@ -176,16 +181,22 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
               <ul class="dropdown-menu">
 			  	<?php if (empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="users/login.php">Login</a></li>
-                <li><a href="users/register.php">Register as New User</a></li>
+                <li><a href="#" onClick="googleLogin(); return false;">Google Login</a></li>
+                <li><a href="#" onClick="facebookLogin(); return false;">Facebook Login</a></li>
+                <li><a href="#" onClick="twitterLogin(); return false;">Twitter Login</a></li>
+                <li><a href="#" onClick="gitHubLogin(); return false;">Github Login</a></li>
 				<?php } ?>
 				<?php if (!empty($_SESSION['MM_UserId'])) { ?>
-                <li><a href="users/logout.php">Logout</a></li>
+				<li><a href="#"><strong>Name:</strong> <?php echo $_SESSION['MM_DisplayName']; ?></a></li>
+				<li><a href="#"><strong>Email:</strong> <?php echo $_SESSION['MM_Username']; ?></a></li>
+				<li><a href="#"><strong>Access Level:</strong> <?php echo $_SESSION['MM_UserGroup']; ?></a></li>
+				
+                <li><a href="#" onClick="signOut(); return false;">Logout</a></li>
 				<?php } ?>
               </ul>
             </li>
 			
-			
+			<?php if (!empty($_SESSION['MM_UserGroup']) && $_SESSION['MM_UserGroup'] === 'admin') { ?>
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -196,6 +207,7 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 				
               </ul>
             </li>
+			<?php } ?>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -228,7 +240,12 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 	    <label>
 	    <input name="submit" type="submit" id="submit" value="Search">
     </label>
-        <input name="religion_id" type="hidden" id="religion_id" value="<?php echo $row_rsReligion['religion_id']; ?>"> <span class="pull-right"><a href="copyAll.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Copy All Verses</a> | <a href="detail.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&delete_religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Delete All Verses</a></span>
+        <input name="religion_id" type="hidden" id="religion_id" value="<?php echo $row_rsReligion['religion_id']; ?>"> <span class="pull-right"><a href="copyAll.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Copy All Verses</a>
+		
+		<?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
+		 | <a href="detail.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&delete_religion_id=<?php echo $row_rsReligion['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete all the verses?'); return check;">Delete All Verses</a>
+		<?php } ?>	 
+	</span>
       </form>
 	<?php if ($totalRows_rsVerses > 0) { // Show if recordset not empty ?>
 
@@ -241,7 +258,9 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
             <td valign="top"><strong>Detail Verse </strong></td>
             <td valign="top"><strong>Like</strong></td>
             <td valign="top">Copy</td>
+			<?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
             <td valign="top"><strong>Delete</strong></td>
+			<?php } ?>
           </tr>
           <?php do { ?>
 	        <tr>
@@ -261,7 +280,9 @@ $queryString_rsVerses = sprintf("&totalRows_rsVerses=%d%s", $totalRows_rsVerses,
 			  <?php } ?>
 			  </td>
 	          <td valign="top"><a href="copy.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Copy</a></td>
-	          <td valign="top"><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Delete</a></td>
+			  <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
+	          <td valign="top"><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete this verse?'); return check;">Delete</a></td>
+			  <?php } ?>
             </tr>
 	        <?php } while ($row_rsVerses = mysql_fetch_assoc($rsVerses)); ?>
       </table>

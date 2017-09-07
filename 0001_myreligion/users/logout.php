@@ -1,6 +1,6 @@
 <?php
 // *** Logout the current user.
-$logoutGoTo = "login.php";
+$logoutGoTo = "../home.php";
 if (!isset($_SESSION)) {
   session_start();
 }

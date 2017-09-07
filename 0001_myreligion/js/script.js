@@ -1,18 +1,5 @@
-<?php
-if (!isset($_SESSION)) {
-  session_start();
-}
-
-?>
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>display</title>
-<script src="../js/jquery-3.2.1.min.js"></script>
-<script src="../js/firebase.js"></script>
-<script>
-  // Initialize Firebase
+// JavaScript Document
+ // Initialize Firebase
   var config = {
     apiKey: "AIzaSyBhpHK-ve2s0ynnr8og8Zx0S69ttEFpDKk",
     authDomain: "project100-fe20e.firebaseapp.com",
@@ -22,10 +9,10 @@ if (!isset($_SESSION)) {
     messagingSenderId: "674827815611"
   };
   firebase.initializeApp(config);
-</script>
+  
+  var locationPath = '/project100/0001_myreligion';
+  
 
-<script>
-	
 	firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
 		var userData = {};
@@ -43,7 +30,7 @@ if (!isset($_SESSION)) {
 	
 	function postToApi(obj) {
 		console.log('postToApi obj is ', obj);
-		postJson('api.php', obj);
+		postJson(locationPath + '/users/api.php', obj);
 		
 	}
 	
@@ -56,7 +43,7 @@ if (!isset($_SESSION)) {
 			constenType: 'application/json; charset=utf-8'
 		}).done(function(response) {
 			console.log('success response = ', response);
-			window.location.href = '../home.php';
+			window.location.href = locationPath + '/home.php';
 		}).fail(function(jqxhr, settings, ex) {
 			console.log('jqxhr is ', jqxhr);
 			console.log('settings is ', settings);
@@ -163,21 +150,9 @@ if (!isset($_SESSION)) {
 		firebase.auth().signOut().then(function() {
 		  // Sign-out successful.
 			console.log('success logout');
+			window.location.href = locationPath + '/users/logout.php';
 		}).catch(function(error) {
 		  // An error happened.
 			console.log('error logout: ', error);
 		});
 	}
-</script>
-
-</head>
-
-<body>
-<p>Firebase Authentication </p>
-<p><a href="" onClick="googleLogin(); return false;">Google</a></p>
-<p><a href="" onClick="facebookLogin(); return false;">Facebook</a></p>
-<p><a href="" onClick="twitterLogin(); return false;">Twitter</a></p>
-<p><a href="" onClick="gitHubLogin(); return false;">Github</a></p>
-<p><a href="" onClick="signOut(); return false;">Signout</a></p>
-</body>
-</html>
