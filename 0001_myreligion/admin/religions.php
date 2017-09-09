@@ -72,14 +72,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-if ((isset($_GET['delete_id'])) && ($_GET['delete_id'] != "")) {
-  $deleteSQL = sprintf("DELETE FROM religions WHERE religion_id=%s",
-                       GetSQLValueString($_GET['delete_id'], "int"));
-
-  mysql_select_db($database_conn, $conn);
-  $Result1 = mysql_query($deleteSQL, $conn) or die(mysql_error());
-}
-
 if ((isset($_GET['religion_id'])) && ($_GET['religion_id'] != "")) {
   $deleteSQL = sprintf("UPDATE religions SET religion_status=%s WHERE religion_id=%s",
                        GetSQLValueString($_GET['changed_status'], "int"),
@@ -149,8 +141,7 @@ $queryString_rsReligions = sprintf("&totalRows_rsReligions=%d%s", $totalRows_rsR
 
 <script src="../js/firebase.js"></script>
 <script src="../js/script.js"></script>
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 </head>
 
 <body>
@@ -218,21 +209,41 @@ $queryString_rsReligions = sprintf("&totalRows_rsReligions=%d%s", $totalRows_rsR
     </nav>
 <!-- InstanceBeginEditable name="EditRegion3" -->
 <div class="container">
-<h1>Religions</h1>
-<p><a href="religions.php?status=0">Pending</a> | <a href="religions.php?status=1">Approved</a> | <a href="religions.php?status=-1">Blocked</a> | <a href="religions.php?status=%">All</a></p>
+<h1>Religions (
+	<?php 
+		switch($colname_rsReligions) {
+			case '0':
+				echo 'Pending';
+				break;
+			case '1':
+				echo 'Approved';
+				break;
+			case '2':
+				echo 'Blocked';
+				break;
+			case '3':
+				echo 'Deleted';
+				break;
+			case '%':
+				echo 'All';
+				break;
+		}
+	?>
+
+)</h1>
+<p><a href="religions.php?status=0">Pending</a> | <a href="religions.php?status=1">Approved</a> | <a href="religions.php?status=2">Blocked </a>| <a href="religions.php?status=3">Trash</a> | <a href="religions.php?status=%">All</a></p>
 <?php if ($totalRows_rsReligions > 0) { // Show if recordset not empty ?>
   <div class="table-responsive">
 	    <table class="table table-striped">
     <tr>
-      <td valign="top">religion_id</td>
-      <td valign="top">user_id</td>
-      <td valign="top">religion_name</td>
-      <td valign="top">religion_description</td>
-      <td valign="top">religion_creation_dt</td>
-      <td valign="top">religion_status</td>
-      <td valign="top">Update</td>
-      <td valign="top">Delete</td>
-    </tr>
+      <td valign="top"><strong>religion_id</strong></td>
+      <td valign="top"><strong>user_id</strong></td>
+      <td valign="top"><strong>religion_name</strong></td>
+      <td valign="top"><strong>religion_description</strong></td>
+      <td valign="top"><strong>religion_creation_dt</strong></td>
+      <td valign="top"><strong>religion_status</strong></td>
+      <td valign="top"><strong>Update</strong></td>
+      </tr>
     <?php do { ?>
       <tr>
         <td valign="top"><?php echo $row_rsReligions['religion_id']; ?></td>
@@ -241,12 +252,11 @@ $queryString_rsReligions = sprintf("&totalRows_rsReligions=%d%s", $totalRows_rsR
         <td valign="top"><?php echo $row_rsReligions['religion_description']; ?></td>
         <td valign="top"><?php echo $row_rsReligions['religion_creation_dt']; ?></td>
         <td valign="top"><?php echo $row_rsReligions['religion_status']; ?></td>
-        <td valign="top"><a href="religions.php?changed_status=0&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Pending</a> | <a href="religions.php?changed_status=1&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Approved</a> | <a href="religions.php?changed_status=-1&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Blocked</a> | <a href="religions.php?changed_status=2&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Soft Delete</a></td>
-        <td valign="top"><a href="religions.php?delete_id=<?php echo $row_rsReligions['religion_id']; ?>&status=<?php echo $colname_rsReligions; ?>">Hard Delete</a></td>
-      </tr>
+        <td valign="top"><a href="religions.php?changed_status=0&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Pending</a> | <a href="religions.php?changed_status=1&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Approved</a> | <a href="religions.php?changed_status=2&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Blocked</a> | <a href="religions.php?changed_status=3&status=<?php echo $colname_rsReligions; ?>&religion_id=<?php echo $row_rsReligions['religion_id']; ?>">Delete</a></td>
+        </tr>
       <?php } while ($row_rsReligions = mysql_fetch_assoc($rsReligions)); ?>
       </table>
-	  </div>
+    </div>
   <p> Records <?php echo ($startRow_rsReligions + 1) ?> to <?php echo min($startRow_rsReligions + $maxRows_rsReligions, $totalRows_rsReligions) ?> of <?php echo $totalRows_rsReligions ?></p>
   <table border="0" width="50%" align="center">
     <tr>

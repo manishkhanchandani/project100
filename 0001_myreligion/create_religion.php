@@ -132,6 +132,26 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   mysql_select_db($database_conn, $conn);
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
 
+}
+
+
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+	
+	mysql_select_db($database_conn, $conn);
+	$query_rsSiteInformation = "SELECT * FROM sites WHERE site_id = 1";
+	$rsSiteInformation = mysql_query($query_rsSiteInformation, $conn) or die(mysql_error());
+	$row_rsSiteInformation = mysql_fetch_assoc($rsSiteInformation);
+	$totalRows_rsSiteInformation = mysql_num_rows($rsSiteInformation);
+	$msg = '
+Dear Admin,
+New religions has been created with name "'.$_POST['religion_name'].'" on website MyReligion. 
+
+Regards.
+	
+';
+	//mail($row_rsSiteInformation['site_admin_email'], 'New Religion Created with Name '.$_POST['religion_name'], $msg, 'From:Info <info@myreligion.tk>');
+	
   $insertGoTo = "create_religion_confirm.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";

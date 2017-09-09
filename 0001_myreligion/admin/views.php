@@ -88,8 +88,12 @@ if (isset($_GET['pageNum_rsViews'])) {
 }
 $startRow_rsViews = $pageNum_rsViews * $maxRows_rsViews;
 
+$colname_rsViews = "0";
+if (isset($_GET['status'])) {
+  $colname_rsViews = (get_magic_quotes_gpc()) ? $_GET['status'] : addslashes($_GET['status']);
+}
 mysql_select_db($database_conn, $conn);
-$query_rsViews = "SELECT * FROM religions_view";
+$query_rsViews = sprintf("SELECT * FROM religions_view WHERE view_status LIKE '%%%s%%'", $colname_rsViews);
 $query_limit_rsViews = sprintf("%s LIMIT %d, %d", $query_rsViews, $startRow_rsViews, $maxRows_rsViews);
 $rsViews = mysql_query($query_limit_rsViews, $conn) or die(mysql_error());
 $row_rsViews = mysql_fetch_assoc($rsViews);
@@ -205,8 +209,29 @@ $queryString_rsViews = sprintf("&totalRows_rsViews=%d%s", $totalRows_rsViews, $q
     </nav>
 <!-- InstanceBeginEditable name="EditRegion3" -->
 <div class="container">
-<h1>Views</h1>
-<p>Pending | Approved | Blocked | Deleted Views  </p>
+<h1>Verses (
+	<?php 
+		switch($colname_rsViews) {
+			case '0':
+				echo 'Pending';
+				break;
+			case '1':
+				echo 'Approved';
+				break;
+			case '2':
+				echo 'Blocked';
+				break;
+			case '3':
+				echo 'Deleted';
+				break;
+			case '%':
+				echo 'All';
+				break;
+		}
+	?>
+
+)</h1>
+<p><a href="views.php?status=0">Pending</a> | <a href="views.php?status=1">Approved</a> | <a href="views.php?status=2">Blocked </a>| <a href="views.php?status=3">Trash</a> | <a href="views.php?status=%">All</a></p>
 <?php if ($totalRows_rsViews > 0) { // Show if recordset not empty ?>
   <div class="table-responsive">
 	    <table class="table table-striped">
@@ -260,7 +285,7 @@ $queryString_rsViews = sprintf("&totalRows_rsViews=%d%s", $totalRows_rsViews, $q
 		
 		
 		?></td>
-        <td valign="top"><a href="views.php?changeStatus=0&view_id=<?php echo $row_rsViews['view_id']; ?>">Pending</a> | <a href="views.php?changeStatus=1&view_id=<?php echo $row_rsViews['view_id']; ?>">Approved</a> | <a href="views.php?changeStatus=2&view_id=<?php echo $row_rsViews['view_id']; ?>">Blocked</a> | <a href="views.php?changeStatus=3&view_id=<?php echo $row_rsViews['view_id']; ?>">Deleted</a> </td>
+        <td valign="top"><a href="views.php?changeStatus=0&view_id=<?php echo $row_rsViews['view_id']; ?>&status=<?php echo $colname_rsViews; ?>">Pending</a> | <a href="views.php?changeStatus=1&view_id=<?php echo $row_rsViews['view_id']; ?>&status=<?php echo $colname_rsViews; ?>">Approved</a> | <a href="views.php?changeStatus=2&view_id=<?php echo $row_rsViews['view_id']; ?>&status=<?php echo $colname_rsViews; ?>">Blocked</a> | <a href="views.php?changeStatus=3&view_id=<?php echo $row_rsViews['view_id']; ?>&status=<?php echo $colname_rsViews; ?>">Deleted</a> </td>
       </tr>
       <?php } while ($row_rsViews = mysql_fetch_assoc($rsViews)); ?>
   </table>

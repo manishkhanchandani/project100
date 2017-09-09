@@ -58,7 +58,7 @@ if (isset($_SESSION['MM_UserId'])) {
   $colname_rsMyReligions = (get_magic_quotes_gpc()) ? $_SESSION['MM_UserId'] : addslashes($_SESSION['MM_UserId']);
 }
 mysql_select_db($database_conn, $conn);
-$query_rsMyReligions = sprintf("SELECT * FROM religions WHERE user_id = %s", $colname_rsMyReligions);
+$query_rsMyReligions = sprintf("SELECT * FROM religions WHERE user_id = %s AND religion_status < 3", $colname_rsMyReligions);
 $query_limit_rsMyReligions = sprintf("%s LIMIT %d, %d", $query_rsMyReligions, $startRow_rsMyReligions, $maxRows_rsMyReligions);
 $rsMyReligions = mysql_query($query_limit_rsMyReligions, $conn) or die(mysql_error());
 $row_rsMyReligions = mysql_fetch_assoc($rsMyReligions);
@@ -105,8 +105,7 @@ $queryString_rsMyReligions = sprintf("&totalRows_rsMyReligions=%d%s", $totalRows
 
 <script src="js/firebase.js"></script>
 <script src="js/script.js"></script>
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 </head>
 
 <body>
@@ -180,21 +179,32 @@ $queryString_rsMyReligions = sprintf("&totalRows_rsMyReligions=%d%s", $totalRows
 	    <table class="table table-striped">
 
     <tr>
-      <td>religion_id</td>
-      <td>user_id</td>
-      <td>religion_name</td>
-      <td>religion_description</td>
-      <td>religion_creation_dt</td>
-      <td>religion_status</td>
+      <td><strong>Religion Name </strong></td>
+      <td><strong>Description</strong></td>
+      <td><strong>Created Date </strong></td>
+      <td><strong>Religion Status </strong></td>
+      <td><strong>Edit Religion</strong> </td>
     </tr>
     <?php do { ?>
       <tr>
-        <td><?php echo $row_rsMyReligions['religion_id']; ?></td>
-        <td><?php echo $row_rsMyReligions['user_id']; ?></td>
         <td><?php echo $row_rsMyReligions['religion_name']; ?></td>
         <td><?php echo $row_rsMyReligions['religion_description']; ?></td>
         <td><?php echo $row_rsMyReligions['religion_creation_dt']; ?></td>
-        <td><?php echo $row_rsMyReligions['religion_status']; ?></td>
+        <td><?php switch($row_rsMyReligions['religion_status']) {
+			case 0:
+				echo 'Pending';
+				break;
+			case 1:
+				echo 'Approved';
+				break;
+			case 2:
+				echo 'Blocked';
+				break;
+			default:
+				echo '';
+				break;
+		} ?></td>
+        <td><a href="my_religion_edit.php?religion_id=<?php echo $row_rsMyReligions['religion_id']; ?>">Edit</a></td>
       </tr>
       <?php } while ($row_rsMyReligions = mysql_fetch_assoc($rsMyReligions)); ?>
   </table>

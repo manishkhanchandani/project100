@@ -92,7 +92,7 @@ if (!isset($_SESSION)) {
 <!-- InstanceBeginEditable name="EditRegion3" -->
 <div class="container">
   <h1>Confirmation</h1>
-  <p>Your religion is successfully created.  </p>
+  <p>Your religion is successfully created.  It is under admin approval, so please wait for 24 to 48 hours to get it approved.</p>
 </div>
 <!-- InstanceEndEditable -->
 

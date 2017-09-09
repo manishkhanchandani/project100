@@ -90,4 +90,8 @@
 	.section-title small {
 		color: #ccc;
 	}
+	
+	.teamHeight {
+		height: 550px;
+	}
 </style>

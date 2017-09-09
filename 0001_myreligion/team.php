@@ -109,7 +109,7 @@ $team = json_decode($row_rsSiteInformation['site_our_team'], true);
 		
 		<div class="row">
 			<?php foreach($team as $k => $developer) { ?>
-			<div class="col-md-4">
+			<div class="col-md-4 teamHeight">
 				<img class="img-responsive img-thumbnail img-circle" src="<?php echo $developer['image']; ?>" />
 				<h3><?php echo $developer['name']; ?> <small><?php echo $developer['designation']; ?></small></h3>
 				<p><?php echo $developer['description']; ?></p>

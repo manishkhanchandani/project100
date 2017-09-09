@@ -161,14 +161,14 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
     <tr>
       <td valign="top"><strong>Religion Name </strong></td>
       <td valign="top"><strong>Description</strong></td>
-      <td valign="top"><strong>Add New Views </strong></td>
+      <td valign="top"><strong>Add New Verses</strong></td>
       <td valign="top"><strong>Follow</strong></td>
     </tr>
     <?php do { ?>
       <tr>
         <td valign="top"><a href="detail.php?religion_id=<?php echo $row_rsView['religion_id']; ?>"><?php echo $row_rsView['religion_name']; ?></a></td>
         <td valign="top"><?php echo $row_rsView['religion_description']; ?></td>
-        <td valign="top"><a href="views_new.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Create New Views</a></td>
+        <td valign="top"><a href="views_new.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Create New Verses</a></td>
         <td valign="top">
 		 		<?php if (!empty($row_rsView['follower_id'])) { ?>
 			  Following (<a href="unfollow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">UnFollow</a>)

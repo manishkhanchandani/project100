@@ -101,6 +101,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   $Result1 = mysql_query($insertSQL, $conn) or die(mysql_error());
 }
 
+
 $colname_rsReligion = "-1";
 if (isset($_GET['religion_id'])) {
   $colname_rsReligion = (get_magic_quotes_gpc()) ? $_GET['religion_id'] : addslashes($_GET['religion_id']);
@@ -111,8 +112,26 @@ $rsReligion = mysql_query($query_rsReligion, $conn) or die(mysql_error());
 $row_rsReligion = mysql_fetch_assoc($rsReligion);
 $totalRows_rsReligion = mysql_num_rows($rsReligion);
 
+
 include('checking_religion_status.php');
 
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+	
+	mysql_select_db($database_conn, $conn);
+	$query_rsSiteInformation = "SELECT * FROM sites WHERE site_id = 1";
+	$rsSiteInformation = mysql_query($query_rsSiteInformation, $conn) or die(mysql_error());
+	$row_rsSiteInformation = mysql_fetch_assoc($rsSiteInformation);
+	$totalRows_rsSiteInformation = mysql_num_rows($rsSiteInformation);
+	$msg = '
+Dear Admin,
+New verse has been created with description "'.$_POST['view_description'].'" and for religion "'.$row_rsReligion['religion_name'].'" on website MyReligion. 
+
+Regards.
+	
+';
+	//mail($row_rsSiteInformation['site_admin_email'], 'New Verse Created for Religion '.$row_rsReligion['religion_name'], $msg, 'From:Info <info@myreligion.tk>');
+	$message = 'New Verse Created Successfully. It is under admin approval, so please wait for 24 to 48 hours to get it approved.';
+}
 
 ?>
 <!doctype html>
@@ -209,6 +228,9 @@ include('checking_religion_status.php');
 	<h3>Add New Verse For  &quot;<?php echo $row_rsReligion['religion_name']; ?>&quot;</h3>
 	<p><a href="detail.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Go Back To Religion Page </a></p>
 
+<?php if (!empty($message)) { ?>
+<div class="alert alert-danger" role="alert"><?php echo $message;  ?></div>
+<?php } ?>
     <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
   <div class="table-responsive">
       <table class="table table-striped">

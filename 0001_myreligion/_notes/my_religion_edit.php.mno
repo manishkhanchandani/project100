@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsEdit" value="name:religion_id;datatype:int,name:user_id;datatype:int,name:religion_name;datatype:string,name:religion_description;datatype:blob,name:religion_creation_dt;datatype:timestamp,name:religion_status;datatype:int,name:religion_type;datatype:string,name:religion_image;datatype:string" />
+</info>
