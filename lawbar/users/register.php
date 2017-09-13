@@ -185,6 +185,7 @@ function MM_validateForm() { //v4.0
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+            <li><a href="../../0001_myreligion/home.php">Home</a></li>
             <li><a href="../../0001_myreligion/team.php">Our Team</a></li>
             <li><a href="../../0001_myreligion/about.php">About</a></li>
             <li><a href="../../0001_myreligion/contact.php">Contact</a></li>

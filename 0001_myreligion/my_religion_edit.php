@@ -146,6 +146,7 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+            <li><a href="home.php">Home</a></li>
             <li><a href="team.php">Our Team</a></li>
             <li><a href="about.php">About</a></li>
             <li><a href="contact.php">Contact</a></li>
@@ -236,7 +237,8 @@ $totalRows_rsEdit = mysql_num_rows($rsEdit);
 </div>
 <!-- InstanceEndEditable -->
 
-</body><!-- InstanceEnd --></html>
+</body>
+<!-- InstanceEnd --></html>
 <?php
 mysql_free_result($rsEdit);
 ?>
