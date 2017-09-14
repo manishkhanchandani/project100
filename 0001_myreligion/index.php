@@ -13,6 +13,21 @@ if (!empty($_GET['keyword'])) {
 	$keyword = $_GET['keyword'];
 }
 
+$type = '';
+if (!empty($_GET['type'])) {
+	$type = $_GET['type'];
+}
+
+$sorting = '';
+if (!empty($_GET['sorting'])) {
+	$type = $_GET['sorting'];
+}
+
+$sortingType = '';
+if (!empty($_GET['sortingType'])) {
+	$type = $_GET['sortingType'];
+}
+
 $maxRows_rsView = 25;
 $pageNum_rsView = 0;
 if (isset($_GET['pageNum_rsView'])) {
@@ -148,67 +163,55 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
 <div class="container">
 
   <h1>Religions</h1>
-  <form method="get">
-	    <strong>Keyword:</strong> 
+ 	
+    <div class="row">
+    	<div class="col-md-3">
+<form method="get">
+  <label for="keyword">Keyword:</label> 
 
-	    <input name="keyword" type="text" id="keyword" size="32" value="<?php echo $keyword; ?>">
+  <input name="keyword" type="text" id="keyword" class="form-control " value="<?php echo $keyword; ?>"><br />
+  
+  <label for="type_1">Religion Type:</label> 
+	<div class="form-control text-center">
+  <input  <?php if (!(strcmp($type,"public"))) {echo "checked=\"checked\"";} ?> name="type" type="radio" id="type_1" value="public"> Public
+  <input  <?php if (!(strcmp($type,"closed"))) {echo "checked=\"checked\"";} ?> name="type" type="radio" id="type_2" value="closed"> Closed
+  <input  <?php if (!(strcmp($type,""))) {echo "checked=\"checked\"";} ?> name="type" type="radio" id="type_3" value=""> Both
+  </div><br /><br />
 
-	    <input name="submit" type="submit" id="submit" value="Search">
+  <input name="submit" type="submit" id="submit" value="Search"  class="form-control btn-primary">
 <br /><br />
-      </form>
-  <?php if ($totalRows_rsView > 0) { // Show if recordset not empty ?>
+</form>
+      	</div>
+    	<div class="col-md-5">
+<?php if ($totalRows_rsView > 0) { // Show if recordset not empty ?>
 <ul class="media-list"> 
 	<?php do { ?>
 	<li class="media"> 
-    	<div class="media-left"> <a href="#"> <img alt="64x64" class="media-object" src="<?php echo $row_rsView['religion_image']; ?>" style="max-width: 100px;"> </a> 
+    	<div class="media-left"> <a href="detail.php?religion_id=<?php echo $row_rsView['religion_id']; ?>"> <img alt="64x64" class="media-object" src="<?php echo $row_rsView['religion_image']; ?>" style="max-width: 100px;"> </a> 
        	</div> 
         <div class="media-body"> 
-            <h4 class="media-heading"><?php echo $row_rsView['religion_name']; ?></h4> 
-            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p> 
+            <h4 class="media-heading"><a href="detail.php?religion_id=<?php echo $row_rsView['religion_id']; ?>"><?php echo $row_rsView['religion_name']; ?></a></h4> 
+            <p class="truncate"><?php echo nl2br($row_rsView['religion_description']); ?></p> 
             <div class="media"> 
-            <div class="media-left"> <a href="#"> <img alt="64x64" class="media-object" src="" style="width: 64px; height: 64px;"> </a> </div> 
-            <div class="media-body"> <h4 class="media-heading">Nested media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. 
-                <div class="media"> 
-                    <div class="media-left"> <a href="#"> <img alt="64x64" class="media-object" src=""  style="width: 64px; height: 64px;"> </a> 
-                    </div> 
-                    <div class="media-body"> <h4 class="media-heading">Nested media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. 
-                    </div> 
-                 </div> 
-              </div> 
+            	<div class="media-body"> 
+            		<h4 class="media-heading">Actions</h4> 
+            		<p><?php echo ucwords($row_rsView['religion_type']); ?> Religion<?php if (!empty($_SESSION['MM_UserId'])) { ?>
+                    	 | <?php if (!empty($row_rsView['follower_id'])) { ?>
+                          Following (<a href="unfollow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">UnFollow</a>)
+                          <?php } else { ?>
+                          <a href="follow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Follow</a>
+                          <?php } ?>
+                      <?php } ?>
+                     </p>
+                 
+              	</div> 
             </div> 
-            <div class="media"> 
-            <div class="media-left"> <a href="#"> <img alt="64x64" class="media-object" src="" style="width: 64px; height: 64px;"> </a> 
-            </div> 
-            <div class="media-body"> <h4 class="media-heading">Nested media heading</h4> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. 
-            </div> 
-            </div> 
+            
 		</div> 
 	</li>
     <?php } while ($row_rsView = mysql_fetch_assoc($rsView)); ?> 
 </ul>
-  <div class="table-responsive">
-	    <table class="table table-striped">
-    <tr>
-<td valign="top">&nbsp;</td>
-      <td valign="top"><strong>Religion Name </strong></td>
-      <td valign="top"><strong>Religion Type</strong></td>
-      <td valign="top"><strong>Follow</strong></td>
-    </tr>
-    <?php //do { ?>
-      <tr>
-<td valign="top"><img src="<?php echo $row_rsView['religion_image']; ?>" class="img-responsive img-thumbnail" style="max-width: 200px;" alt="<?php echo $row_rsView['religion_name']; ?>" /></td>
-        <td valign="top"><a href="detail.php?religion_id=<?php echo $row_rsView['religion_id']; ?>"><?php echo $row_rsView['religion_name']; ?></a></td>
-        <td valign="top"><?php echo $row_rsView['religion_type']; ?></td>
-        <td valign="top">
-		 		<?php if (!empty($row_rsView['follower_id'])) { ?>
-			  Following (<a href="unfollow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">UnFollow</a>)
-			  <?php } else { ?>
-			  <a href="follow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Follow</a>
-			  <?php } ?></td>
-      </tr>
-      <?php //} while ($row_rsView = mysql_fetch_assoc($rsView)); ?>
-  </table>
-  </div>
+
   <p> Records <?php echo ($startRow_rsView + 1) ?> to <?php echo min($startRow_rsView + $maxRows_rsView, $totalRows_rsView) ?> of <?php echo $totalRows_rsView ?>
   <table border="0" width="50%" align="center">
     <tr>
@@ -234,6 +237,11 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
 <?php if ($totalRows_rsView == 0) { // Show if recordset empty ?>
   <p>No Religion Available.</p>
   <?php } // Show if recordset empty ?>
+        
+        </div>
+    	<div class="col-md-4"></div>
+    </div>
+  
 </div>
 <!-- InstanceEndEditable -->
 
