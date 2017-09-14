@@ -165,6 +165,7 @@ if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") 
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+            <li><a href="home.php">Home</a></li>
             <li><a href="team.php">Our Team</a></li>
             <li><a href="about.php">About</a></li>
             <li><a href="contact.php">Contact</a></li>
@@ -214,100 +215,120 @@ if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") 
     </nav>
 <!-- InstanceBeginEditable name="EditRegion3" -->
 <div class="container">
-	<h1 class="page-header"><?php echo $row_rsReligion['religion_name']; ?></h1>
-	
-	<!-- Religion Content -->
+            <h1 class="page-header"><?php echo $row_rsReligion['religion_name']; ?></h1>
 	<div class="row">
-		<div class="col-md-5"><img src="<?php echo $row_rsReligion['religion_image']; ?>" class="img-responsive img-thumbnail" /></div>
-		<div class="col-md-7">
-			<div><?php echo $row_rsReligion['religion_description']; ?></div>
-			<div>
-			  <p>&nbsp;</p>
-			  <p><strong>Religion Type:</strong> <?php echo ucfirst($row_rsReligion['religion_type']); ?></p>
-			  <p><a href="views_new.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Add New Verse</a> </p>
-			</div>
-		</div>
-	</div>
-	
-	
-	  <h3 class="page-header">Verses</h3>
-	  <form method="get">
-	    <strong>Keyword:</strong> 
-	    <label>
-	    <input name="keyword" type="text" id="keyword" size="32" value="<?php echo $keyword; ?>">
-	    </label>
-	  
-	    <label>
-	    <input name="submit" type="submit" id="submit" value="Search">
-    </label>
-        <input name="religion_id" type="hidden" id="religion_id" value="<?php echo $row_rsReligion['religion_id']; ?>"> <span class="pull-right"><a href="copyAll.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Copy All Verses</a>
-		
-		<?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
-		 | <a href="detail.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&delete_religion_id=<?php echo $row_rsReligion['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete all the verses?'); return check;">Delete All Verses</a>
-		<?php } ?>	 
-	</span>
-      </form>
-	<?php if ($totalRows_rsVerses > 0) { // Show if recordset not empty ?>
-
-    <div class="table-responsive">
-	    <table class="table table-striped">
-          <tr>
-            <td valign="top">&nbsp;</td>
-            <td valign="top"><strong>Verse Description </strong></td>
-            <td valign="top"><strong>Category</strong></td>
-            <td valign="top"><strong>Detail Verse </strong></td>
-            <td valign="top"><strong>Like</strong></td>
-            <td valign="top">Copy</td>
-			<?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
-            <td valign="top"><strong>Delete</strong></td>
-			<?php } ?>
-          </tr>
-          <?php do { ?>
-	        <tr>
-	          <td valign="top" class="detailImage">
-			  	<?php $images = json_decode($row_rsVerses['view_images'], true);
-					
-						?>
-			  <div><img src="<?php echo $images[0]; ?>" class="img-responsive" /></div>			  </td>
-	          <td valign="top"><?php echo $row_rsVerses['view_description']; ?></td>
-	          <td valign="top"><?php echo $categories[$row_rsVerses['category_id']]; ?></td>
-	          <td valign="top"><a href="detail_verse.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&view_id=<?php echo $row_rsVerses['view_id']; ?>">Detail Verse</a> </td>
-	          <td valign="top">
-			  <?php if (!empty($row_rsVerses['like_id'])) { ?>
-			  Liked (<a href="unlike_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Unlike</a>)
-			  <?php } else { ?>
-			  <a href="like_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Like</a>
-			  <?php } ?>
-			  </td>
-	          <td valign="top"><a href="copy.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Copy</a></td>
-			  <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
-	          <td valign="top"><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete this verse?'); return check;">Delete</a></td>
-			  <?php } ?>
-            </tr>
-	        <?php } while ($row_rsVerses = mysql_fetch_assoc($rsVerses)); ?>
-      </table>
-	   
+    	<div class="col-md-7">
+ 
+ 
+             <h3 class="page-header" style="margin-top: 0px;">Verses</h3>
+                  <form method="get">
+                    <strong>Keyword:</strong> 
+                    <label>
+                    <input name="keyword" type="text" id="keyword" size="32" value="<?php echo $keyword; ?>">
+                    </label>
+                  
+                    <label>
+                    <input name="submit" type="submit" id="submit" value="Search">
+                </label>
+                    <input name="religion_id" type="hidden" id="religion_id" value="<?php echo $row_rsReligion['religion_id']; ?>"> <span class="pull-right"><a href="copyAll.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Copy All Verses</a>
+                    
+                    <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
+                     | <a href="detail.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&delete_religion_id=<?php echo $row_rsReligion['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete all the verses?'); return check;">Delete All Verses</a>
+                    <?php } ?>	 
+                </span>
+                  </form>
+                <?php if ($totalRows_rsVerses > 0) { // Show if recordset not empty ?>
+            
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                      <tr>
+                        <td valign="top">&nbsp;</td>
+                        <td valign="top"><strong>Verse Description </strong></td>
+                        <td valign="top"><strong>Category</strong></td>
+                        <td valign="top"><strong>Detail Verse </strong></td>
+                        <td valign="top"><strong>Like</strong></td>
+                        <td valign="top">Copy</td>
+                        <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
+                        <td valign="top"><strong>Delete</strong></td>
+                        <?php } ?>
+                      </tr>
+                      <?php do { ?>
+                        <tr>
+                          <td valign="top" class="detailImage">
+                            <?php $images = json_decode($row_rsVerses['view_images'], true);
+                                
+                                    ?>
+                          <div><img src="<?php echo $images[0]; ?>" class="img-responsive" /></div>			  </td>
+                          <td valign="top"><?php echo $row_rsVerses['view_description']; ?></td>
+                          <td valign="top"><?php echo $categories[$row_rsVerses['category_id']]; ?></td>
+                          <td valign="top"><a href="detail_verse.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&view_id=<?php echo $row_rsVerses['view_id']; ?>">Detail Verse</a> </td>
+                          <td valign="top">
+                          <?php if (!empty($row_rsVerses['like_id'])) { ?>
+                          Liked (<a href="unlike_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Unlike</a>)
+                          <?php } else { ?>
+                          <a href="like_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Like</a>
+                          <?php } ?>
+                          </td>
+                          <td valign="top"><a href="copy.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Copy</a></td>
+                          <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
+                          <td valign="top"><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete this verse?'); return check;">Delete</a></td>
+                          <?php } ?>
+                        </tr>
+                        <?php } while ($row_rsVerses = mysql_fetch_assoc($rsVerses)); ?>
+                  </table>
+                   
+                </div>
+                      
+                       <p> Records <?php echo ($startRow_rsVerses + 1) ?> to <?php echo min($startRow_rsVerses + $maxRows_rsVerses, $totalRows_rsVerses) ?> of <?php echo $totalRows_rsVerses ?></p>
+                      <table border="0" width="50%" align="center">
+                        <tr>
+                          <td width="23%" align="center"><?php if ($pageNum_rsVerses > 0) { // Show if not first page ?>
+                            <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, 0, $queryString_rsVerses); ?>">First</a>
+                                <?php } // Show if not first page ?>                                </td>
+                          <td width="31%" align="center"><?php if ($pageNum_rsVerses > 0) { // Show if not first page ?>
+                            <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, max(0, $pageNum_rsVerses - 1), $queryString_rsVerses); ?>">Previous</a>
+                                <?php } // Show if not first page ?>                                </td>
+                          <td width="23%" align="center"><?php if ($pageNum_rsVerses < $totalPages_rsVerses) { // Show if not last page ?>
+                            <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, min($totalPages_rsVerses, $pageNum_rsVerses + 1), $queryString_rsVerses); ?>">Next</a>
+                                <?php } // Show if not last page ?>                                </td>
+                          <td width="23%" align="center"><?php if ($pageNum_rsVerses < $totalPages_rsVerses) { // Show if not last page ?>
+                            <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, $totalPages_rsVerses, $queryString_rsVerses); ?>">Last</a>
+                                <?php } // Show if not last page ?>                                </td>
+                        </tr>
+                </table>
+            
+                  <?php } // Show if recordset not empty ?>
+ 
+ 
+ 
+ 
+ 
+        </div>
+    	<div class="col-md-5">
+        
+        
+        
+            
+            <!-- Religion Content -->
+            <div class="row">
+                <div class="col-md-12"><img src="<?php echo $row_rsReligion['religion_image']; ?>" class="img-responsive img-thumbnail" /></div>
+                <div class="col-md-12">
+                    <div><?php echo nl2br($row_rsReligion['religion_description']); ?></div>
+                    <div>
+                      <p>&nbsp;</p>
+                      <p><strong>Religion Type:</strong> <?php echo ucfirst($row_rsReligion['religion_type']); ?></p>
+                      <p><a href="views_new.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>">Add New Verse</a> </p>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+        </div>
     </div>
-		  
-		   <p> Records <?php echo ($startRow_rsVerses + 1) ?> to <?php echo min($startRow_rsVerses + $maxRows_rsVerses, $totalRows_rsVerses) ?> of <?php echo $totalRows_rsVerses ?></p>
-	      <table border="0" width="50%" align="center">
-            <tr>
-              <td width="23%" align="center"><?php if ($pageNum_rsVerses > 0) { // Show if not first page ?>
-                <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, 0, $queryString_rsVerses); ?>">First</a>
-                    <?php } // Show if not first page ?>                                </td>
-              <td width="31%" align="center"><?php if ($pageNum_rsVerses > 0) { // Show if not first page ?>
-                <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, max(0, $pageNum_rsVerses - 1), $queryString_rsVerses); ?>">Previous</a>
-                    <?php } // Show if not first page ?>                                </td>
-              <td width="23%" align="center"><?php if ($pageNum_rsVerses < $totalPages_rsVerses) { // Show if not last page ?>
-                <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, min($totalPages_rsVerses, $pageNum_rsVerses + 1), $queryString_rsVerses); ?>">Next</a>
-                    <?php } // Show if not last page ?>                                </td>
-              <td width="23%" align="center"><?php if ($pageNum_rsVerses < $totalPages_rsVerses) { // Show if not last page ?>
-                <a href="<?php printf("%s?pageNum_rsVerses=%d%s", $currentPage, $totalPages_rsVerses, $queryString_rsVerses); ?>">Last</a>
-                    <?php } // Show if not last page ?>                                </td>
-            </tr>
-    </table>
-
-	  <?php } // Show if recordset not empty ?><p>&nbsp;</p>
+	
+	
+	  
 </div>
 <!-- InstanceEndEditable -->
 
