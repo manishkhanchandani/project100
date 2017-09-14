@@ -10,7 +10,7 @@
   };
   firebase.initializeApp(config);
   
-  var locationPath = '/project100/0001_myreligion';
+  var locationPath = '';
   
 
 	firebase.auth().onAuthStateChanged(function(user) {
