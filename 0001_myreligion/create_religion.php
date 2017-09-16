@@ -150,7 +150,7 @@ New religions has been created with name "'.$_POST['religion_name'].'" on websit
 Regards.
 	
 ';
-	//mail($row_rsSiteInformation['site_admin_email'], 'New Religion Created with Name '.$_POST['religion_name'], $msg, 'From:Info <info@myreligion.tk>');
+	mail($row_rsSiteInformation['site_admin_email'], 'New Religion Created with Name '.$_POST['religion_name'], $msg, 'From:Info <info@myreligion.tk>');
 	
   $insertGoTo = "create_religion_confirm.php";
   if (isset($_SERVER['QUERY_STRING'])) {

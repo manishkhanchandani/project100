@@ -108,14 +108,15 @@ $links = json_decode($row_rsVerse['view_links'], true);
 <div class="container">
 <h1 class="page-header">Detail Verse</h1>
 <div class="row">
-	<div class="col-md-5">
-		<img src="<?php echo $images[0]; ?>" class="img-responsive" />
-	</div>
 	<div class="col-md-7">
 		<div><?php echo $row_rsVerse['view_description']; ?></div>
 	</div>
+	<div class="col-md-5">
+		<img src="<?php echo $images[0]; ?>" class="img-responsive" />
+	</div>
 </div>
 
+<?php if (!empty($images)) { ?>
 <h3 class="page-header">Images</h3>
 <div class="row">
 	<?php
@@ -126,6 +127,8 @@ $links = json_decode($row_rsVerse['view_links'], true);
 	}
 	?>
 </div>
+<?php } ?>
+<?php if (!empty($videos)) { ?>
 <h3 class="page-header">Videos</h3><div class="row">
 	<?php
 	foreach ($videos as $k => $v) {
@@ -139,6 +142,8 @@ $links = json_decode($row_rsVerse['view_links'], true);
 	}
 	?>
 </div>
+<?php } ?>
+<?php if (!empty($links)) { ?>
 <h3 class="page-header">Links</h3>
 	<div class="list-group">
 		<?php
@@ -150,7 +155,7 @@ $links = json_decode($row_rsVerse['view_links'], true);
 	?>
 	</div>
 </div>
-<p>&nbsp;</p>
+<?php } ?>
 <!-- InstanceEndEditable -->
 
 </body>
