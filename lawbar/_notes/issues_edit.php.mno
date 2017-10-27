@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<info>
-	<infoitem key="UD_rsEdit" value="name:issue_id;datatype:int,name:issue;datatype:string,name:subject;datatype:string,name:template;datatype:blob,name:user_id;datatype:int,name:issue_deleted;datatype:int,name:hints;datatype:blob" />
-</info>

@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<info>
-	<infoitem key="UD_rsEdit" value="name:essay_issue_id;datatype:int,name:user_id;datatype:int,name:issue_id;datatype:int,name:comments;datatype:blob,name:sorting;datatype:int,name:essay_id;datatype:int,name:statementHint;datatype:blob" />
-</info>

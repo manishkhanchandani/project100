@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<info>
-	<infoitem key="UD_rsUserExist" value="name:user_id;datatype:int,name:display_name;datatype:string,name:profile_img;datatype:string,name:email;datatype:string,name:provider_id;datatype:string,name:password;datatype:string,name:access_level;datatype:string,name:user_created_dt;datatype:datetime,name:uid;datatype:string,name:logged_in_time;datatype:int,name:profile_uid;datatype:string" />
-	<infoitem key="UD_rsEdit" value="name:user_id;datatype:int,name:display_name;datatype:string,name:profile_img;datatype:string,name:email;datatype:string,name:provider_id;datatype:string,name:password;datatype:string,name:access_level;datatype:string,name:user_created_dt;datatype:datetime,name:uid;datatype:string,name:logged_in_time;datatype:int,name:profile_uid;datatype:string" />
-</info>
