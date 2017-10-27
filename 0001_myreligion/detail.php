@@ -221,7 +221,7 @@ if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") 
  
  
              <h3 class="page-header" style="margin-top: 0px;">Verses</h3>
-                  <form method="get">
+                  <form method="get" action="" name="searchfrm" id="searchfrm" style="margin-bottom: 20px;">
                     <strong>Keyword:</strong> 
                     <label>
                     <input name="keyword" type="text" id="keyword" size="32" value="<?php echo $keyword; ?>">
@@ -245,11 +245,9 @@ if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") 
                         <td valign="top">&nbsp;</td>
                         <td valign="top"><strong>Verse Description </strong></td>
                         <td valign="top"><strong>Category</strong></td>
-                        <td valign="top"><strong>Detail Verse </strong></td>
                         <td valign="top"><strong>Like</strong></td>
-                        <td valign="top">Copy</td>
+                        <td valign="top"><strong>Actions</strong></td>
                         <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
-                        <td valign="top"><strong>Delete</strong></td>
                         <?php } ?>
                       </tr>
                       <?php do { ?>
@@ -259,9 +257,8 @@ if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") 
                                 
                                     ?>
                           <div><img src="<?php echo $images[0]; ?>" class="img-responsive" /></div>			  </td>
-                          <td valign="top"><?php echo $row_rsVerses['view_description']; ?></td>
+                          <td valign="top"><a href="detail_verse.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&view_id=<?php echo $row_rsVerses['view_id']; ?>"><?php echo $row_rsVerses['view_description']; ?></a></td>
                           <td valign="top"><?php echo $categories[$row_rsVerses['category_id']]; ?></td>
-                          <td valign="top"><a href="detail_verse.php?religion_id=<?php echo $row_rsReligion['religion_id']; ?>&view_id=<?php echo $row_rsVerses['view_id']; ?>">Detail Verse</a> </td>
                           <td valign="top">
                           <?php if (!empty($row_rsVerses['like_id'])) { ?>
                           Liked (<a href="unlike_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Unlike</a>)
@@ -269,15 +266,14 @@ if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") 
                           <a href="like_verses.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Like</a>
                           <?php } ?>
                           </td>
-                          <td valign="top"><a href="copy.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>">Copy</a></td>
+                          <td valign="top"><a href="copy.php?view_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>"><img src="images/copy.png" width="16" height="16" alt="Copy" title="Copy"></a> <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete this verse?'); return check;"><img src="images/delete.png" width="16" height="16" alt="Delete" title="Delete"></a> <?php } ?></td>
                           <?php if (!empty($_SESSION['MM_UserId']) && $row_rsReligion['user_id'] == $_SESSION['MM_UserId']) { ?>
-                          <td valign="top"><a href="detail.php?delete_id=<?php echo $row_rsVerses['view_id']; ?>&religion_id=<?php echo $row_rsVerses['religion_id']; ?>" onClick="var check = confirm('Do you really want to delete this verse?'); return check;">Delete</a></td>
                           <?php } ?>
                         </tr>
                         <?php } while ($row_rsVerses = mysql_fetch_assoc($rsVerses)); ?>
                   </table>
                    
-                </div>
+</div>
                       
                        <p> Records <?php echo ($startRow_rsVerses + 1) ?> to <?php echo min($startRow_rsVerses + $maxRows_rsVerses, $totalRows_rsVerses) ?> of <?php echo $totalRows_rsVerses ?></p>
                       <table border="0" width="50%" align="center">
@@ -311,7 +307,7 @@ if ((isset($_GET['delete_religion_id'])) && ($_GET['delete_religion_id'] != "") 
             
             <!-- Religion Content -->
             <div class="row">
-                <div class="col-md-12"><img src="<?php echo $row_rsReligion['religion_image']; ?>" class="img-responsive img-thumbnail" /></div>
+                <div class="col-md-12" style="margin-bottom: 20px;"><img src="<?php echo $row_rsReligion['religion_image']; ?>" class="img-responsive img-thumbnail" /></div>
                 <div class="col-md-12">
                     <div><?php echo nl2br($row_rsReligion['religion_description']); ?></div>
                     <div>

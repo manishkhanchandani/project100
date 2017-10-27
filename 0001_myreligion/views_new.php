@@ -129,7 +129,7 @@ New verse has been created with description "'.$_POST['view_description'].'" and
 Regards.
 	
 ';
-	//mail($row_rsSiteInformation['site_admin_email'], 'New Verse Created for Religion '.$row_rsReligion['religion_name'], $msg, 'From:Info <info@myreligion.tk>');
+	mail($row_rsSiteInformation['site_admin_email'], 'New Verse Created for Religion '.$row_rsReligion['religion_name'], $msg, 'From:Info <info@myreligion.tk>');
 	$message = 'New Verse Created Successfully. It is under admin approval, so please wait for 24 to 48 hours to get it approved.';
 }
 

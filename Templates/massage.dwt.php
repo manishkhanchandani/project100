@@ -1,29 +1,20 @@
-<?php
-if (!isset($_SESSION)) {
-  session_start();
-}
-?>
-<!doctype html>
-<html><!-- InstanceBegin template="/Templates/myReligion.dwt.php" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8">
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>Restrict Access</title>
-<!-- InstanceEndEditable -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="../css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/style.css">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>Untitled Document</title>
+<!-- TemplateEndEditable -->
+<link rel="stylesheet" href="../002_massageexchange/css/bootstrap.min.css">
+<link rel="stylesheet" href="../002_massageexchange/css/style.css">
 
-<script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../002_massageexchange/js/jquery-3.2.1.min.js"></script>
+<script src="../002_massageexchange/js/bootstrap.min.js"></script>
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-
-<script src="../js/firebase.js"></script>
-<script src="../js/script.js"></script>
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+<script src="../002_massageexchange/js/firebase.js"></script>
+<script src="../002_massageexchange/js/script.js"></script>
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
 </head>
 
 <body>
@@ -38,19 +29,20 @@ if (!isset($_SESSION)) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.php">My Religion</a>
+          <a class="navbar-brand" href="../002_massageexchange/index.php">Massage Exchange</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="../team.php">Our Team</a></li>
-            <li><a href="../about.php">About</a></li>
-            <li><a href="../contact.php">Contact</a></li>
+            <li><a href="../002_massageexchange/home.php">Home</a></li>
+            <li><a href="../002_massageexchange/team.php">Our Team</a></li>
+            <li><a href="../002_massageexchange/about.php">About</a></li>
+            <li><a href="../002_massageexchange/contact.php">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Religions <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="../create_religion.php">Create New Religion</a></li>
-                <li><a href="../home.php">Browse All Religions</a></li>
-                <li><a href="../my_religions.php">My Created Religions</a></li>
+                <li><a href="../002_massageexchange/create_religion.php">Create New Religion</a></li>
+                <li><a href="../002_massageexchange/home.php">Browse All Religions</a></li>
+                <li><a href="../002_massageexchange/my_religions.php">My Created Religions</a></li>
               </ul>
             </li>
 			
@@ -77,9 +69,9 @@ if (!isset($_SESSION)) {
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="../admin/religions.php">Religions (Approve / Block)</a></li>
-                <li><a href="../admin/views.php">Verses (Approve / Block)</a></li>
-                <li><a href="../admin/site.php">Site Information</a></li>
+                <li><a href="../002_massageexchange/admin/religions.php">Religions (Approve / Block)</a></li>
+                <li><a href="../002_massageexchange/admin/views.php">Verses (Approve / Block)</a></li>
+                <li><a href="../002_massageexchange/admin/site.php">Site Information</a></li>
 				
 				
               </ul>
@@ -89,12 +81,8 @@ if (!isset($_SESSION)) {
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-<!-- InstanceBeginEditable name="EditRegion3" -->
-<div class="container">
-<p>Restricted Area</p>
-<p>Since you are not an admin, so you cannot access this page. </p>
-</div>
-<!-- InstanceEndEditable -->
-
+<!-- TemplateBeginEditable name="EditRegion3" -->
+<p>body</p>
+<!-- TemplateEndEditable -->
 </body>
-<!-- InstanceEnd --></html>
+</html>

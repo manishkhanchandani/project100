@@ -182,7 +182,7 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
 <br /><br />
 </form>
       	</div>
-    	<div class="col-md-5">
+    	<div class="col-md-7">
 <?php if ($totalRows_rsView > 0) { // Show if recordset not empty ?>
 <ul class="media-list"> 
 	<?php do { ?>
@@ -193,8 +193,7 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
             <h4 class="media-heading"><a href="detail.php?religion_id=<?php echo $row_rsView['religion_id']; ?>"><?php echo $row_rsView['religion_name']; ?></a></h4> 
             <p class="truncate"><?php echo nl2br($row_rsView['religion_description']); ?></p> 
             <div class="media"> 
-            	<div class="media-body"> 
-            		<h4 class="media-heading">Actions</h4> 
+            	<div class="media-body">
             		<p><?php echo ucwords($row_rsView['religion_type']); ?> Religion<?php if (!empty($_SESSION['MM_UserId'])) { ?>
                     	 | <?php if (!empty($row_rsView['follower_id'])) { ?>
                           Following (<a href="unfollow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">UnFollow</a>)
@@ -202,6 +201,7 @@ $queryString_rsView = sprintf("&totalRows_rsView=%d%s", $totalRows_rsView, $quer
                           <a href="follow_religion.php?religion_id=<?php echo $row_rsView['religion_id']; ?>">Follow</a>
                           <?php } ?>
                       <?php } ?>
+                      | <a href="#">Facebook Share</a>
                      </p>
                  
               	</div> 
