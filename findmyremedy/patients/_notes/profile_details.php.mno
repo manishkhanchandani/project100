@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsProfile" value="name:profile_id;datatype:int,name:user_id;datatype:int,name:first_name;datatype:string,name:last_name;datatype:string,name:gender;datatype:string,name:birthyear;datatype:int,name:profile_creation_dt;datatype:timestamp" />
+</info>
